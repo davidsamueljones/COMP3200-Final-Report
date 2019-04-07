@@ -1,0 +1,17 @@
+\chapter{Proposed Protocol}
+\section{Considerations}
+% Coping with hops, on demand (reactive) or table driven (proactive), (minimise need but use AODV or DSR). 
+LoRa packets can only be 256 bytes (due to FIFO buffer size, see official documentation https://www.semtech.com/products/wireless-rf/lora-transceivers/SX1276).
+LoRa packet transmit time ranges from 200ms to 1s depending on packet size.\
+https://github.com/sudomesh/disaster-radio/wiki/Protocol
+\section{Proposal}
+% Duty cycles (decided on method [manage per hour])
+% Bands (dual band)
+% Message types
+% PHY layer parameter selection
+% Adaptiveness???
+% a461331.pdf general collision avoidance
+%
+
+Phy testing has shown that distance cannot be covered by a gateway
+Proposed solution is agnostic to routing protocol

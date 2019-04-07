@@ -1,0 +1,24 @@
+\chapter{Simulator}
+\section{Model}
+\subsection{Airtime}
+\label{sec:LoRaTiming}
+A \ac{lora} transmission consists of a number of symbols, 
+Configuration of these parameters effect transmission time
+The time a \ac{lora} symbol takes to transmit can be calculated
+
+
+
+% Time model realtime using predicted lora airtimes
+% Model discrete events
+\subsection{Propagation}
+\subsection{RSSI}
+\subsection{SNR}
+\subsection{Interference}
+\label{sec:RadioCollisions}
+
+% Seperate model for collisions from 91197515.pdf
+% receivers are able to detect when a collision has occurred increasing liklihood of getting second packet, this has not been implemented as its performance has not been verifiable
+\subsection{Receive Chance}
+% Sigmoid packet chance functions?
+\subsubsection{Channel Activity Detection (CAD)}
+\section{Interface (GUI)}
