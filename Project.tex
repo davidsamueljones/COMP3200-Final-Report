@@ -1,0 +1,98 @@
+%% ----------------------------------------------------------------
+%% Project.tex
+%% ---------------------------------------------------------------- 
+\documentclass{ecsproject}     
+\usepackage[backend=bibtex8, style=ieee]{biblatex}
+\usepackage{acro}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{makecell}
+\usepackage{subfig}
+\usepackage{pgfgantt}
+\usepackage{longtable}
+\usepackage[shortlabels]{enumitem}
+\usepackage{array}
+  
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}m{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}m{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}m{#1}}
+\newcommand{\centered}[1]{\begin{tabular}{l} #1 \end{tabular}}
+
+\input{Definitions}
+\input{Abbreviations}
+
+\graphicspath{{../Figures/}}
+\hypersetup{colorlinks=false}
+\acsetup{first-style=short}
+\bibliography{citations}
+
+%% ----------------------------------------------------------------
+\begin{document}
+\frontmatter
+\title      {LoRa Communications for Sparse Robot Swarms}
+\authors    {\texorpdfstring
+             {\href{mailto:dsj1n15@soton.ac.uk}{David Jones}}
+             {David Jones}
+            }
+\addresses  {\groupname\\\deptname\\\univname}
+\date       {\today}
+\subject    {}
+\keywords   {}
+\supervisor {Dr Klaus-Peter Zauner}
+\examiner   {Prof. Kirk Martinez}
+\degree     {MEng Computer Science}
+\maketitle
+
+\begin{abstract}
+
+
+\end{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+%\lstlistoflistings
+
+
+\chapter*{Acronyms}
+\vspace{-20mm}
+\printacronyms[include-classes=abbrev, name=]
+\newpage
+
+\input{Symbols}
+\acknowledgements{
+This work would not have been possible without Klaus Peter-Zauner's weekly guidance and continuous support. I am also thankful to Kirk Martinez for his invaluable suggestions on simulation methods, which kept this project progressing. Most of all I would like to thank any family and friends who kept me company through the many hours of data collection, no matter the weather!
+}
+%\dedicatory{To \dots}
+\mainmatter
+
+%% ----------------------------------------------------------------
+\include{Introduction}
+\include{Background}
+\include{PHYTesting}
+\include{Protocol}
+\include{Simulator}
+\include{Testing_and_Evaluation}
+\include{Discussion}
+
+\include{Conclusion}
+% Future work 
+% Look at security
+% Test in hardware
+% Incorporate into full network stack
+
+\include{Retrospective}
+% 40 hours or so of on site data collection
+% Lost time from trying to develop on hardware
+% 
+
+
+\appendix
+\include{Appendix}
+\backmatter
+
+\printbibliography
+
+\end{document}
+%% ----------------------------------------------------------------
