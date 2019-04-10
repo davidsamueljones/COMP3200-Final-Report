@@ -1,0 +1,46 @@
+
+
+
+\chapter{Test Reference}
+
+\begin{table}[H]
+\centering\small
+\caption[Test definitions for executed tests]{List of tests where each test is repeated for each spreading factor.}
+\label{tab:TestDefinitions}
+\begin{tabular}{C{2.5cm}|ccccccccc}
+\toprule
+\textbf{\ac{td}} & \textbf{\ac{pc}} & \textbf{\ac{ps}} & \textbf{\ac{cf}} (MHz) & \textbf{\ac{sf}} & \textbf{\ac{tp}} (dBm) & \textbf{\ac{bw}} (kHz) & \textbf{\ac{cr}} & \textbf{\ac{pl}} \\
+\midrule
+
+\textbf{SF\#\_A} & \multirow{4}{*}{50} & 20 & \multirow{4}{*}{868.1} & \multirow{4}{*}{All} & \multirow{4}{*}{14} & \multirow{4}{*}{125} & 4/5 & \multirow{4}{*}{8} \\
+\textbf{SF\#\_B} &  & 128 &  &  &  &  & 4/5 &  \\
+\textbf{SF\#\_C} &  & 255 &  &  &  &  & 4/5 &  \\
+\textbf{SF\#\_D} &  & 128 &  &  &  &  & 4/8 &  \\
+
+\addlinespace\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering\small
+\caption[Reference of tests executed at test locations]{Reference of tests executed at test locations. A single column refers to all spreading factors for the corresponding test. Green indicates that test was executed for all \ac{mp}s, yellow indicates that it was executed for some \ac{mp}s red indicates that the tests were not executed.}
+\label{tab:LocationTestReference}
+\begin{tabular}{C{2.5cm}|c|C{2cm}C{2cm}C{2cm}C{2cm}}
+\toprule
+\textbf{Location} & \textbf{$A_h$} & \textbf{SF\#\_A} & \textbf{SF\#\_B} & \textbf{SF\#\_C} & \textbf{SF\#\_D}  \\
+\midrule
+\multirow{3}{*}{\shortstack{\textbf{$L_{A}$}\\(Free-Space)}} & 1.0 & \cellcolor{green!25}{} & \cellcolor{green!25} & \cellcolor{green!25} & \cellcolor{red!25} \\
+& 0.5 & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} \\
+& 0.0 & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} \\
+\addlinespace
+\multirow{3}{*}{\shortstack{\textbf{$L_{B1}$}\\(Free-Space)}} & 1.0 & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25}  \\
+& 0.5 & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} & \cellcolor{red!25} \\
+& 0.0 & \cellcolor{red!25} & \cellcolor{green!25} & \cellcolor{red!25} & \cellcolor{red!25}\\
+\addlinespace
+\multirow{3}{*}{\shortstack{\textbf{$L_{B2}$}\\(In-Forest)}} & 1.0 & \cellcolor{yellow!25} & \cellcolor{green!25} & \cellcolor{yellow!25} & \cellcolor{yellow!25} \\
+& 0.5 & \cellcolor{yellow!25} & \cellcolor{green!25} & \cellcolor{yellow!25} & \cellcolor{yellow!25}\\
+& 0.0 & \cellcolor{yellow!25} & \cellcolor{green!25} & \cellcolor{yellow!25} & \cellcolor{yellow!25}\\
+\addlinespace\bottomrule
+\end{tabular}
+\end{table}
+
