@@ -1,0 +1,79 @@
+\chapter{Datalogger User Manual}\label{sec:user_manual}
+\textbf{User Manual for Datalogger Software} \\ 
+Firmware Version v1.0
+
+\textbf{Overview}\\
+The firmware in contained in the design archive, see \texttt{LoRa\_Datalogger}. The same firmware is used for Master and Slave devices to reduce the chance of inconsistent behaviour. The 8-bit board identifier, which is stored in Teensy EEPROM, is used to determine datalogger type. The top two bits are reserved, with B7 identifying a Master and B6 identifying a Slave, all other bits should be used to assign a unique identifier. A tool is provided in the design archive to set this appropriately, see \texttt{LoRa\_Board\_ID\_Setter}.
+
+Full detail of master-slave commands and their purpose are included in Section \ref{sec:test_platform_software} of the main report; this manual is to instruct on how the software actually operates.
+
+\textbf{Hardware}\\
+The following hardware positions are for a device oriented such that the Teensy is on the left, the radio is on the right and the transparent top is facing upwards.
+
+The status LEDs are as follows: \\
+\phantom{-}\hspace{1cm}Bottom - \textbf{\texttt{LED\_1}} \\
+\phantom{-}\hspace{1cm}Middle - \textbf{\texttt{LED\_2}}\\
+\phantom{-}\hspace{1cm}Top - \textbf{\texttt{LED\_3}}
+
+Switches are as follows: \\
+\phantom{-}\hspace{1cm}Left - \textbf{\texttt{POWER\_SWITCH}} \\
+\phantom{-}\hspace{1cm}Right - \textbf{\texttt{SOFTWARE\_SWITCH}}
+
+\newpage\textbf{Common Power-On Behaviour}\\
+All device types carry out the same boot sequence before device type specific behaviour, this is as follows:
+\begin{enumerate}[label=\textbf{\arabic*}]
+	\item  Before powering on the device, the \textbf{\texttt{SOFTWARE\_SWITCH}} can optionally be set to its bottom position to delay boot up until a serial monitor is attached to the Teensy USB. Other positions will boot up as normal. Waiting can be cancelled during boot-up by changing the switch back to any other position.
+	\item Power on device by setting the \textbf{\texttt{POWER\_SWITCH}} to its bottom position. All other positions indicate off.
+	\item \textbf{\texttt{LED\_1}}, \textbf{\texttt{LED\_2}} and \textbf{\texttt{LED\_3}} will turn on.
+	\item The datalogger will initialise serial communications.
+	\item \textbf{\texttt{LED\_3}} will turn off.
+	\item The datalogger will sync with the real time clock (\ac{rtc}).
+	\item The datalogger will check if it is a master or a slave using the board identifier stored in the EEPROM. If the identifier is not found or is invalid, the device will go into error state.
+	\item The radio will initialise using the hardcoded configuration. On initialisation failure the device will go into error state.
+	\item \textbf{\texttt{LED\_1}} will turn off.
+	\item The SD card will initialise. If this is unsuccessful, boot-up will not fail but not all functionality may be available.
+	\item If the \textbf{\texttt{SOFTWARE\_SWITCH}} switch is not in its middle position then boot-up will pause until it is.
+	\item \textbf{\texttt{LED\_2}} will turn off.	
+\end{enumerate}
+
+When boot up is finished either \textbf{\texttt{LED\_1}} or \textbf{\texttt{LED\_3}} will be lit continuously indicating if the board is a Slave or Master respectively. If an error state is entered then \textbf{\texttt{LED\_2}} will flash continuously. The device must be rebooted to resolve this. It is suggested that a serial connection is connected before boot to discover any issues.
+
+\newpage\textbf{Slave Behaviour}\\
+Behaviour is dictated by \texttt{SOFTWARE\_SWITCH} position:
+\vspace{-5mm}
+\begin{itemize}
+	\item \textbf{Bottom} : No Behaviour \textit{(Reserved)}
+	\item \textbf{Middle} : Idle
+	\item \textbf{Top} : Command Handling Mode
+\end{itemize}
+All modes use \textbf{\texttt{LED\_2}} to indicate a successful send or receive, and  \textbf{\texttt{LED\_1}} to indicate any failures. Behaviour can be cancelled at any time by returning the \texttt{SOFTWARE\_SWITCH} switch to the middle position.
+
+\textbf{Master Behaviour}\\
+During boot, if any of the following folders/files do not exist, they are created:
+\vspace{-5mm}
+ \begin{itemize}
+ \item \texttt{/testdefs/} - Folder for placing test definitions.
+ \item \texttt{/results/} - Folder that results are saved to.
+ \item \texttt{/testdefs/\_format.txt} - File with current firmware's expected format for test definitions. As of v1.0 this is a file containing the following fields: \texttt{exp\_range,\\packet\_cnt,packet\_len,freq,sf,tx\_dbm,bw,cr4\_denom,preamble\_syms,crc,}\\ \textit{Note that the final comma is required, examples are provided in the design archive}
+ \end{itemize}
+
+
+Behaviour is dictated by \texttt{SOFTWARE\_SWITCH} position:
+\vspace{-5mm}
+\begin{itemize}
+	\item \textbf{Bottom} : Heartbeat Mode. Sends continuous heartbeat commands, \textbf{\texttt{LED\_2}} will flash for a received response, \textbf{\texttt{LED\_1}} will flash for failure.
+	\item \textbf{Middle} : Idle
+	\item \textbf{Top} : Test Definition Mode. If the SD card is not present then this mode will not have any behaviour. Otherwise, all test definitions will be loaded and executed in order of expected range (longest range first). If no packets are received at a range level, the remaining test definitions are not executed. A test definition's results are stored in a single file, in a folder timestamped with the time the mode was executed. \textbf{\texttt{LED\_2}} indicates a test definition is being executed. \textbf{\texttt{LED\_1}} will flash on test definition delivery failure. All LEDs will be lit when the test finishes.
+\end{itemize}
+Behaviour of any mode can be cancelled at any time by returning the \texttt{SOFTWARE\_SWITCH} switch to the middle position.
+
+
+
+
+
+
+
+
+
+
+
