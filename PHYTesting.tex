@@ -1,27 +1,15 @@
 \chapter{\ac{lora} \ac{phy} Testing}
-\section{Overview}
-It has been repeatedly shown that \ac{lora} transmissions can be received at distances exceeding 10km in  unobstructed environments (free-space) when antennas are highly elevated \cite{3YP:LORA_RANGE_REVIEW}. However, these ideal radio conditions are not realistic for swarm robots operating in high-propagation environments such as forests. Therefore the first experiment in this paper attempts to identify the physical performance of \ac{lora} for the sparse swarm use case. 
 
+\input{PHYTestingMethod}
 \input{TestPlatform}
+\input{TestResults}
 
-\section{Methodology}
-Simple testing scenarios devised.
-so a phone was used for logging test coordinates manually
-
-\section{Results}
-\the\textwidth
-\begin{figure}[H]
-    \centering
-   	\includegraphics{Figures/snr_pp_plot.eps}
-    \caption[\ac{snr} vs packet percentage plot]{
-    WRITE THIS DESCRIPTIONNN!!!
-    }
-    \label{master_slave_sequence}
-\end{figure}
 
 \subsection{Open (Free) Space}
 High noise floor indicates that either the receiver's noise figure is not correct or there is more noise than expected in the environment. The fact that demodulation limit is nowhere near the true limit for SF10 onwards suggests that the cheaper radio does not perform correctly.
 
+
+\section{Discussion}
 
 \subsection{Forest}
 \subsection{Radio Height}
