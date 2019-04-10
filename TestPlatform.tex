@@ -1,43 +1,47 @@
-\section{Test Platform}
+\section{Testing  Platform}\label{sec:testing_platform}
 \subsection{Hardware}
-To test point-to-point transmissions, two identical platforms that could send and receive \ac{lora} transmissions were required. The basis of the designed test platform was HopeRF's\footnote{HopeRF Microelectronics Co. Ltd, China, https://www.hoperf.com/} RFM95W - a packet radio containing a \ac{lora} transceiver design licensed from Semtech; specifically, Adafruit's\footnote{Adafruit, USA, https://www.adafruit.com/} broken out version was used. As a raw packet radio, unlike the popular Microchip RN2483, it provided direct access to the radio interface. An omni-directional 3dBi 868MHz whip antenna was connected to the radio using a soldered uFL connector and a SMA to uFL connector. It was controlled by a Teensy\footnote{Teensy, https://www.pjrc.com/teensy/} 3.6 micro-controller, which also handled all logging responsibilities. A simple breakout circuit was designed and implemented on strip-board to connect the components in a condensed package. Each breakout board featured: a JST-PH2 battery connector, a coin cell holder for the Teensy's real-time-clock (\ac{rtc}), a power switch, a two-mode software switch, and three status LEDs. The schematic can be viewed in Figure \ref{fig:datalogger_schematic}. This was packaged to fit in an IP67 rated container with an internal 1800mAh \ac{lipo} battery. Switches and SMA antenna connectors were external; these were IP67 rated and extra sealing has been added where appropriate. The final dataloggers can be seen in Figure \ref{fig:dataloggers}. The Teensy is equipped with an SD card for storage but, due to cost considerations, a GPS module could not be implemented. The full breakdown of materials can be seen in Figure \ref{fig:datalogger_cost}.
-
-\subsection{Software}
-The system was designed such that one device (a slave) could be left unattended at a fixed location and controlled by a second device (a master); this was achieved using a command control system, as seen in Figure \ref{fig:software_cmd_system}. Two command classes were defined for testing purposes; these are as follows:
-\begin{itemize}
-	\item {\textbf{\texttt{HB\_CMD}}} : Command to trigger simple heartbeat functionality. When a slave receives this command it sends a heartbeat response (a short packet) on the base operating configuration. If in range, the master device will pick this up and alert the user.
-	\item {\textbf{\texttt{TD\_CMD}}} : Command to trigger execution of a test definition (\ac{td}). In principle, the master device requests a set of packets to be sent by the slaves using the \ac{td} configuration; this is the basis of all test functionality. The full control flow is explained in detail in Figure \ref{fig:software_testdef_execution}.
-\end{itemize}
-
-%Whether a device was a master or a slave was determined by the board identifier stored in the Teensy EEPROM; this meant the same software could be flashed onto both, reducing the chance of software version inconsistencies.
+The basis of the designed test platform is HopeRF's\footnote{HopeRF Microelectronics Co. Ltd, China, https://www.hoperf.com/} RFM95W - a packet radio containing a \ac{lora} transceiver design licensed from Semtech; specifically, a broken out version from  Adafruit's\footnote{Adafruit, USA, https://www.adafruit.com/} is used. As a raw packet radio, unlike the popular Microchip RN2483, it provides direct access to the radio interface. An omni-directional 3dBi gain half-wavelength whip antenna is connected to the radio using a soldered uFL connector and a SMA to uFL connector. It is controlled by a Teensy\footnote{Teensy, https://www.pjrc.com/teensy/} 3.6 micro-controller, which also handles all logging responsibilities. A simple breakout circuit is implemented on strip-board to connect the components in a condensed package. Each breakout board features: a JST-PH2 battery connector, a coin cell holder for the Teensy's real-time-clock (\ac{rtc}), a power switch, a two-mode software switch, and three status LEDs. The schematic can be viewed in Figure \ref{fig:datalogger_schematic}. This is packaged to fit in an IP67 rated container with an internal 1800mAh \ac{lipo} battery. Switches and SMA antenna connectors are external; these are IP67 rated and sealant is added where appropriate. The Teensy is equipped with an SD card for storage but, due to cost considerations, a GPS module is not implemented. A full breakdown of materials is listed in Figure \ref{fig:datalogger_cost}. The created test platforms, seen in Figure \ref{fig:dataloggers}, achieve the target of being a \ac{lora} datalogger suitable for all-weather.
 
 \begin{figure}[H]
     \centering
+    \begin{tabular}{cc}
+    \subfloat[]{\includegraphics[height=5cm]{Figures/dl_both_devices.png}}
+    \hspace{2.5mm}
+    \subfloat[]{\includegraphics[height=5cm]{Figures/dl_circuit.png}}
+    \end{tabular}
+    \caption[Assembled testing platform]{External view of \texttt{S0} and \texttt{M0} platforms (left). Circuit view of \texttt{S0} (right); this is fixed into the assembly to avoid movement between tests. }
+    \label{fig:dataloggers}
+\end{figure}
+
+\subsection{Software}\label{sec:test_platform_software}
+The system is designed such that one device (a slave), can be left unattended at a fixed location and controlled by a second device (a master); this is achieved using a command control system, as explained in Figure \ref{fig:software_cmd_system}. Two command classes are defined for testing purposes; these are as follows:
+\begin{itemize}
+	\item {\textbf{\texttt{HB\_CMD}}} : Command to trigger simple heartbeat functionality. When a slave receives this command it sends a heartbeat response (\textbf{\texttt{HB\_RSP}}) on the base configuration.
+	\item {\textbf{\texttt{TD\_CMD}}} : Command to trigger execution of a test definition (\ac{td}). A \ac{td} holds a \ac{lora} configuration (values for \ac{cf}, \ac{sf}, \ac{tp}, \ac{bw}, \ac{cr}, \ac{pl}), a required \ac{pc}, and \ac{ps}. Figure \ref{fig:software_testdef_execution} explains full control flow in detail.
+	\end{itemize}
+	
+\begin{figure}[H]
+    \centering
     \includegraphics{Figures/software_cmd_system.pdf}
-    \caption[Master-Slave command control method]{Diagram showing Master-Slave command control method.}
+    \caption[Master-Slave command control method]{
+    	Diagram showing master-slave command control method. Initially, both devices default to the same hardcoded radio parameters allowing two-way communication. This base state is chosen such that the expected range exceeds or matches that of the longest test range. When a mode is selected on the master, it sends the corresponding command to the listening slave and the behaviour is carried out. At any point the user may stop the master, and unless the slave is interacting with the master, it likely has no knowledge of this and will finish its behaviour. After command behaviour has finished the base configuration is reloaded in case it has been changed. In the case a master's mode requires multiple commands, the process repeats.
+    }
     \label{fig:software_cmd_system}
 \end{figure}
+\vspace{-0mm}
+Slaves always listen to handle incoming commands, whereas the master can be set into two modes (other than idle):
+\begin{itemize}
+	\item \textbf{Heartbeat:} Sends periodic \texttt{HB\_CMD} commands, alerts user accordingly for every received or missed \textbf{\texttt{HB\_RSP}}.
+	\item {\textbf{Run \ac{td}s:} Loads all stored \ac{td}s and handles them sequentially using \textbf{\texttt{TD\_CMD}}s. \ac{td} results are stored separately in a folder timestamped with the execution time.}
+\end{itemize}
+
+Interfacing with the radio is handled by the RH\_RF95 driver from the Radiohead\footnote{Radiohead, https://www.airspayce.com/mikem/arduino/RadioHead/} library; this means that only the control logic needed to be implemented. Operation of the software is detailed in Appendix \ref{sec:user_manual}.
 
 \begin{figure}[H]
     \centering
     \includegraphics{Figures/software_testdef_execution.pdf}
-    \caption[Master-Slave test definition execution method]{Diagram showing test definition execution.}
+    \caption[Master-Slave test definition execution method]{
+    	Diagram showing execution of a single \ac{td}. After a \textbf{\texttt{TD\_CMD}} command is received, a short handshake takes place so that the master can share the \ac{td} to execute. After which both radios accordingly change their parameters and the slave sends the required \ac{pc}. Test packets are of length defined by the \ac{td} and contain a sequence identifier with the rest of data filled by a fixed data pattern. Any received packets are recorded along with \ac{rssi} and \ac{snr} values. Failed receives that occur due to bad CRCs are also recorded. This means that only transmissions where the preamble is not received are not recorded.
+    }
     \label{fig:software_testdef_execution}
 \end{figure}
-
-
-
-
-% the user, could trigger a command to be sent from the master to the receiver. 
-%
-%Whether a device was a master or a slave was determined by the board identifier stored in the Teensy EEPROM; this meant the same software could be flashed onto both, reducing the chance of software version inconsistencies.
-%
-% 
-%Interfacing with the radio was handled by the RH\_RF95 driver from the Radiohead\footnote{Radiohead, https://www.airspayce.com/mikem/arduino/RadioHead/} library; this meant that only the control logic needed to be implemented. 
-%
-%
-% A high-level overview of the planned test method is visualised in Figure \ref{master_slave_sequence}. \label{datalogger_software}
-%
-%
-%    
-%    Initial link testing will make use of two node classes: masters and slaves. The slaves are responsible for sending packets in the configuration requested by the master device. These are in the form of test definitions (TDs) that are stored on the master's memory card and will be processed one at a time. As the proposed system utilises only nodes, slave and master must have the same \ac{sf} and \ac{bw} for receiving the TD. This base state will be hard-coded such that the expected range exceeds or matches that of the longest range TD. The master will expect a certain number of packets (PC) from the slave, those received will have performance figures such as \ac{rssi}, \ac{snr} and \ac{per} recorded to the memory card under the specific test. The slave will wait for a new test definition once the PC has been sent. The master will proceed onto the next TD once the expected test length has expired.
