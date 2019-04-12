@@ -3,14 +3,14 @@ It has been repeatedly shown that \ac{lora} transmissions can be received at dis
 \section{Methodology}
 A full quantitive assessment was deemed infeasible given the sheer amount of data required to cover the full range of radio parameters and scenarios, coupled with this testing only being a project sub-goal. Therefore, a focus was taken to get enough data across a small selection of important scenarios and parameters, such that qualitative assessments could be made to aid protocol design. Due to the expected sparsity of robots, near field scenarios (when transmitter and receiver are very close) were of little interest; this left only the far field to test. For 868MHz signals this meant the distance between radios ($d_{tx}$) had to exceed 34.54cm (1 wavelength). 
 
- The two main transmission environments selected were free-space and in-forest; this was to give an understanding of both low-propagation and high-propagation scenarios. Data collection was mainly spread over two locations: \textbf{$L_{A}$} and \textbf{$L_{B}$}, identified in Figure \ref{fig:new_forest_map} and \ref{fig:stansted_map} respectively. All locations were rural and were therefore theoretically free from strong sources of external interference. Radio placement at locations was decided by first placing the transmitting radio (slave) at a fixed location, and then, using the furthest receivable point as the starting point for the receiving radio (master). From there the master was positioned closer towards the slave for each future test. In each scenario the main interest was ground level transmissions; however, to assess whether radio performance was actually compromised by the placement, comparative measurements were taken with an elevated antenna. 
+ The two main transmission environments selected were free-space and in-forest; this was to give an understanding of both low-propagation and high-propagation scenarios. Data collection was mainly spread over two locations: \textbf{$L_{A}$} and \textbf{$L_{B}$} (split into \textbf{$L_{B1}$} and \textbf{$L_{B2}$}), identified in Figure \ref{fig:new_forest_map} and \ref{fig:stansted_map} respectively. All locations were rural and were therefore theoretically free from strong sources of external interference. Radio placement at each location was decided by first placing the transmitting radio (slave) at a fixed location, and then, using the furthest receivable point as the starting point for the receiving radio (master). From there the master was positioned closer towards the slave for each future test. In each scenario the main interest was ground level transmissions; however, to assess whether radio performance was actually compromised by the placement, comparative measurements were taken with an elevated antenna. 
  
   \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{Figures/new_forest_light.pdf}
     \caption[Test Location: The New Forest, Hampshire, UK]{
     Test positions for \textbf{$L_A$} :  The New Forest, Hampshire, UK.\\
-    \ac{sp} in open with \ac{los} to other points a combination of free-space and light vegetation. Positions and pictures in Appendix \ref{sec:new_forest_testing_pictures}. To the left of \ac{mp}7 vegetation density increases, therefore making \ac{mp}7 the furthest position viable for close to free-space testing.
+    \ac{sp} in open with \ac{los} to other points a combination of free-space and light vegetation. Positions and pictures in Appendix \ref{sec:new_forest_test_pos}. To the left of \ac{mp}7 vegetation density increases, therefore making \ac{mp}7 the furthest position viable for close to free-space testing.
     }
     \label{fig:new_forest_map}
 \end{figure}
@@ -24,12 +24,12 @@ A full quantitive assessment was deemed infeasible given the sheer amount of dat
     \centering
     \begin{tabular}{c}
     \subfloat[{
-    Test positions for in-forest testing (\textbf{$L_{B1}$}). \ac{sp} in forest with \ac{los} to other points continually obstructed by a combination of leaved and bare trees. Positions and pictures in Appendix \ref{sec:stansted_forest_pictures}. Large clump of \ac{mp}s where radio reception was inconsistent.
+    Test positions for in-forest testing (\textbf{$L_{B1}$}). \ac{sp} in forest with \ac{los} to other points continually obstructed by a combination of leaved and bare trees. Positions and pictures in Appendix \ref{sec:stansted_forest_test_pos}. Large clump of \ac{mp}s where radio reception was inconsistent.
     }]
     {\includegraphics[width=\textwidth]{Figures/stansted_forest.pdf}\label{fig:stansted_map_forest}} 
     \\
     \subfloat[{
-        Test positions for free-space testing (\textbf{$L_{B2}$}). \ac{sp} in open with \ac{los} completely free-space. Positions and pictures in Appendix \ref{sec:stansted_forest_pictures}. No access to right of \ac{mp}13.
+        Test positions for free-space testing (\textbf{$L_{B2}$}). \ac{sp} in open with \ac{los} completely free-space. Positions and pictures in Appendix \ref{sec:stansted_free_test_pos}. No access to right of \ac{mp}13.
     }]{\includegraphics[width=\textwidth]{Figures/stansted_free_space.pdf}\label{fig:stansted_map_free}}
     \end{tabular}
     \caption[Test Location: Stansted Forest, West Sussex, UK]{
