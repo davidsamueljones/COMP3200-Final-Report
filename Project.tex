@@ -4,6 +4,7 @@
 \documentclass{ecsproject}     
 \usepackage[backend=bibtex8, style=ieee]{biblatex}
 \usepackage{acro}
+\usepackage[singlelinecheck=false]{caption}
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{makecell}
@@ -12,7 +13,10 @@
 \usepackage{longtable}
 \usepackage[shortlabels]{enumitem}
 \usepackage{array}
-  
+\usepackage{multirow}
+\usepackage{colortbl}
+\usepackage[math]{cellspace}
+
 \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
 \newcolumntype{C}[1]{>{\PreserveBackslash\centering}m{#1}}
 \newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}m{#1}}
@@ -55,16 +59,15 @@
 %\lstlistoflistings
 
 
-\chapter*{Acronyms}
+\chapter{Acronyms}
 \vspace{-20mm}
 \printacronyms[include-classes=abbrev, name=]
-\newpage
+\printacronyms[include-classes=radio_params, name=]
 
 \input{Symbols}
 \acknowledgements{
 This work would not have been possible without Klaus Peter-Zauner's weekly guidance and continuous support. I am also thankful to Kirk Martinez for his invaluable suggestions on simulation methods, which kept this project progressing. Most of all I would like to thank any family and friends who kept me company through the many hours of data collection, no matter the weather!
 }
-%\dedicatory{To \dots}
 \mainmatter
 
 %% ----------------------------------------------------------------
