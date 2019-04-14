@@ -1,4 +1,4 @@
-It has been repeatedly shown that \ac{lora} transmissions can be received at distances exceeding 10km in  unobstructed environments (free-space) when antennas are highly elevated \cite{3YP:LORA_RANGE_REVIEW}. However, these ideal radio conditions are unlikely to be realistic for swarm robots operating in high-propagation environments such as forests. Therefore the first experiment in this paper attempts to identify the physical performance of \ac{lora} for the sparse swarm use case. 
+It has been repeatedly shown that \ac{lora} transmissions can be received at distances exceeding 10km in  unobstructed environments (free-space) when antennas are highly elevated \cite{3YP:LORA_RANGE_REVIEW}. However, these ideal radio conditions are unrealistic for swarm robots operating in high-propagation environments such as forests. Therefore the first experiment in this paper identifies \ac{lora}'s physical performance and expected limitations. 
 
 \section{Methodology}
 A full quantitive assessment was deemed infeasible given the sheer amount of data required to cover the full range of radio parameters and scenarios, coupled with this testing only being a project sub-goal. Therefore, a focus was taken to get enough data across a small selection of important scenarios and parameters, such that qualitative assessments could be made to aid protocol design. Due to the expected sparsity of robots, near field scenarios (when transmitter and receiver are very close) were of little interest; this left only the far field to test. For 868MHz signals this meant the distance between radios ($d_{tx}$) had to exceed 34.54cm (1 wavelength). 
@@ -9,17 +9,18 @@ A full quantitive assessment was deemed infeasible given the sheer amount of dat
     \centering
     \includegraphics[width=\textwidth]{Figures/new_forest_light.pdf}
     \caption[Test Location: The New Forest, Hampshire, UK]{
-    Test positions for \textbf{$L_A$} :  The New Forest, Hampshire, UK.\\
-    \ac{sp} in open with \ac{los} to other points a combination of free-space and light vegetation. Positions and pictures in Appendix \ref{sec:new_forest_test_pos}. To the left of \ac{mp}7 vegetation density increases, therefore making \ac{mp}7 the furthest position viable for close to free-space testing.
+    Test positions for \textbf{$L_A$} :  The New Forest, Hampshire, UK.\protect\footnotemark[1] \\
+    \ac{sp} in open with \ac{los} to other points a combination of free-space and light vegetation. Positions and pictures in Appendix \ref{sec:new_forest_test_pos}. To the left of \ac{mp}7 vegetation density increases,  making \ac{mp}7 the furthest position viable for free-space testing.
     }
     \label{fig:new_forest_map}
 \end{figure}
 
-
  In terms of radio parameters, \ac{sf} was the main focus due to it being an on option mostly unique to \ac{lora}; all values were tested for this in all locations (\ac{sf} = 7, 8, 9, 10, 11, 12). Variations using the lowest (4/5) and highest (4/8) \ac{cr}s were collected to verify \ac{fec} performance in an environment with little or no burst interference. Additionally, as the maximum transmission unit is often defined by the protocol, and the target was to inform the protocol, the effects of varying packet size were taken (\ac{ps} = 20, 128, 255). The rest of the parameters were fixed. The 868.1MHz \ac{cf} was used with \ac{tp} set to 14dBm so that the collected data would be relevant in regard to the \ac{etsi} regulations. The bandwidth was fixed to 125kHz so that radio sensitivity was only affected by the \ac{sf}. The programmed \ac{pl} was set to 8 to match that used by \ac{lorawan} \cite{3YP:LORAWAN_REGIONAL_PARAMS}. The number of packets (\ac{pc}) transmitted for each configuration was set to 50; though not guaranteed, this gives reasonable expectation of a normal distribution, thus allowing typical statistical analysis to be performed. See Table \ref{tab:TestDefinitions} for full test definitions.
  
- To test the point-to-point transmissions, two identical platforms, which together could log the performance of sending and receiving \ac{lora} transmissions, were required. The platforms had to be suitable for outdoor use, be able to test multiple radio configurations whilst on location and provide a mechanism to indicate to user when the maximum range had been reached. The hardware and corresponding software created for this purpose is detailed in Section \ref{sec:testing_platform}. Although testing was split across multiple days the same dry conditions were present for each.
- 
+ To test the point-to-point transmissions, two identical platforms, which together could log the performance of sending and receiving \ac{lora} transmissions, were required. The platforms had to be suitable for outdoor use, be able to test multiple radio configurations whilst on location and provide a mechanism to indicate to user when the maximum range had been reached. The hardware and corresponding software created for this purpose is detailed in Section \ref{sec:testing_platform}.
+ \newpage
+\vspace*{\fill}
+\begingroup
  \begin{figure}[H]
     \centering
     \begin{tabular}{c}
@@ -33,7 +34,31 @@ A full quantitive assessment was deemed infeasible given the sheer amount of dat
     }]{\includegraphics[width=\textwidth]{Figures/stansted_free_space.pdf}\label{fig:stansted_map_free}}
     \end{tabular}
     \caption[Test Location: Stansted Forest, West Sussex, UK]{
-    Test locations for \textbf{$L_B$} :  Stansted Forest, West Sussex, UK.
+    Test locations for \textbf{$L_B$} :  Stansted Forest, West Sussex, UK.\footnotemark[1]
     }
     \label{fig:stansted_map}
 \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{ccc}
+    \subfloat[][$L_{A}$ : MP05 \\ (1.0m)]{\includegraphics[height=7.5cm]{Figures/la_MP5_H1_0}}
+    \hspace{2.5mm}
+    \subfloat[][$L_{B1}$ : SP \\ (0.5m)]{\includegraphics[height=7.5cm]{Figures/lb2_MP16_H0_0}}
+    \hspace{2.5mm}
+    \subfloat[][$L_{B2}$ : MP16 \\ (0.5m)]{\includegraphics[height=7.5cm]{Figures/lb2_SP_H0_0}}
+    \end{tabular}
+    \caption[Test location example]{Pictures of test environments and conditions. Although testing was split across multiple days at each location, the same dry conditions were present.}
+    \label{fig:dataloggers}
+\end{figure}
+\endgroup
+\vspace*{\fill}
+\footnotetext[1]{
+    	$\enskip $ Copyright © 2019 MapOSMatic/OCitySMap developers\\
+    	\indent \indent $\enskip $ Map Data © 2019 OpenStreetMap contributors (see http://osm.org/copyright)\\
+    	\indent \indent $\enskip $ British Style © MapQuest \\
+    	\indent \indent $\enskip $ Contour Overlay © OpenSnowMap.org
+}
+
+ 
