@@ -1,0 +1,51 @@
+\chapter{Risk Management}
+\centering\small
+\begin{table}[H]
+\caption[Risk analysis]{Updated risk analysis from progress report with a final comment on whether each identified risk arose and if it did, how it was dealt with.}
+\label{risk_analysis}
+\end{table}
+\vspace{-10mm}
+\begin{longtable}{p{0.5cm}|p{3cm}|p{1.9cm}|p{1.75cm}|p{6.25cm}}
+\toprule
+\textbf{ID} & \textbf{Risk} & \textbf{Likelihood} & \textbf{Severity} & \textbf{Mitigation} \\
+\midrule\addlinespace
+\multirow{2}{*} A & Datalogger gets stolen from logging position. & Low & Very High & Clearly label with contact details. Take data off frequently. Position in discrete locations and only leave unattended when necessary. If mitigation fails, attempt to progress in project with existing data or literary research. If not possible, a further funding request may be required.  \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{Stayed on-site for the duration of all tests, this meant at one time only the slave device was ever left unattended. This was in the open for free-space testing but device was placed away from paths to avoid attention. Devices were not stolen over approximately 40 hours of data logging so risk mitigation was adequate.}}\\
+\midrule
+\multirow{2}{*} B & Datalogger gets water damage from weather. & Low & High & Verify integrity of IP67 storage medium. Leave in covered positions. If mitigation fails, attempt to fix any broken parts with remaining budget (see Figure \ref{fig:budget_breakdown}).  \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{For the most part weather and conditions were dry. However, the two days of data collection in the rain posed no issues.}}\\
+\midrule
+\multirow{2}{*} C & Required distances with suitable terrain for test cases cannot be found. & Medium & Low & Radios use low power output so extreme test distances are not expected. Constant line of sight obstructions should not distort between-test results. \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{In-forest environments were no issue as radio range was very short. Coincidently the extremeties of communications were reached for free space ground level transmissions at Stansted Forest, making the location perfect. However, the higher up measurements did need to be taken in The New Forest with some \ac{los} obstacles; this had a negligible effect on results.}}\\
+\midrule
+\multirow{2}{*} D & Gathered data contradicts literary research or expectations. & Medium & Medium & Repeat any tests with unexpected results. Use primary data to progress whilst determining possible reasons. \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{There were no substantial surprises in gathered data. Free-space data did not directly fit any pre-existing model applied to it, but this was unsurprising given the complexity of radio environments.}}\\
+\midrule
+\multirow{2}{*} E & No clear protocol requirements can be determined from data. & Medium & Very High & Gather data from other more unique scenarios. At last resort change project focus to experimental research write-up.   \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{A clear theoretical problem could be identified quickly (avoiding collisions in ad-hoc scenarios). Test data also verified that \ac{sf}s could be key to mitigating protocol overhead. However, finding a solution that could utilise this was not trivial, this was perhaps unsurprising given that similar issues are a massive networking research topic and there is no `good' solution.}}\\
+\midrule
+\multirow{2}{*} F & Created simulation does not reflect real world scenario. & High & Medium & Provided deficiencies are known, they can be accounted for in result write-up.  \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{Although the created simulator was not verified against a multitude of environments, for the most part its outputs directly lined up with test results and theoretical expectation. Understandably, propagation models were nowhere near as complex as real world environments, however, the basic concepts of distance, and high/low propagation were suitable.}}\\
+\midrule
+\multirow{2}{*} G & Proposed protocol cannot be implemented in time. & High & Medium & Keep protocol scope to the specified proposal (do not make a fully featured protocol). Consider creating an overlay for existing protocols e.g. \ac{lorawan}.   \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{
+%Due to the large number of proceeding tasks, protocol implementation was very delayed. 
+}}\\
+\midrule
+\multirow{2}{*} H & Loss of code or data. & Low & Very High & Make use of git version control. Make frequent commits and push to a safe origin (e.g. GitHub) frequently.  \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{Most work was kept in GitHub repositories (separate for datalogger code, simulator code, and report). MATLAB scripts and working files were stored in Google Drive. No issues occurred but in hindsight it may have been better to place these under git version control also.}}\\
+\midrule
+\multirow{2}{*} I & Unable to perform real-world protocol testing for any reason. & High & Low & Early assessment of a protocol can be suitably managed through simulations so put a focus on this.  \\
+\addlinespace
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{When it was clear that project time was running low the decision was taken to focus on simulation testing. Time aside, the number of nodes required to assess protocol performance would have been unattainable due to sheer cost.}}\\
+\addlinespace\bottomrule
+\end{longtable}
+

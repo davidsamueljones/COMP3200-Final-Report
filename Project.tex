@@ -16,6 +16,7 @@
 \usepackage{multirow}
 \usepackage{colortbl}
 \usepackage[math]{cellspace}
+\usepackage{amsmath}
 
 \newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
 \newcolumntype{C}[1]{>{\PreserveBackslash\centering}m{#1}}
@@ -75,27 +76,15 @@ This work would not have been possible without Klaus Peter-Zauner's weekly guida
 \include{Background}
 \include{PHYTesting}
 \include{Protocol}
-\include{Simulator}
 \include{Testing_and_Evaluation}
-\include{Discussion}
-
 \include{Conclusion}
-% Future work 
-% Look at security
-% Test in hardware
-% Incorporate into full network stack
-
 \include{Retrospective}
-% 40 hours or so of on site data collection
-% Lost time from trying to develop on hardware
-% 
 
+\printbibliography
 
 \appendix
 \include{Appendix}
 \backmatter
-
-\printbibliography
 
 \end{document}
 %% ----------------------------------------------------------------

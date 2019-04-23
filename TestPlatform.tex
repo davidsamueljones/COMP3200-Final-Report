@@ -17,9 +17,8 @@ The basis of the designed test platform is HopeRF's\footnote{HopeRF Microelectro
 The system is designed such that one device (a slave), can be left unattended at a fixed location and controlled by a second device (a master); this is achieved using a command control system, as explained in Figure \ref{fig:software_cmd_system}. Two command classes are defined for testing purposes; these are as follows:
 \begin{itemize}
 	\item {\textbf{\texttt{HB\_CMD}}} : Command to trigger simple heartbeat functionality. When a slave receives this command it sends a heartbeat response (\textbf{\texttt{HB\_RSP}}) on the base configuration.
-	\item {\textbf{\texttt{TD\_CMD}}} : Command to trigger execution of a test definition (\ac{td}). A \ac{td} holds a \ac{lora} configuration (values for \ac{cf}, \ac{sf}, \ac{tp}, \ac{bw}, \ac{cr}, \ac{pl}), a required \ac{pc}, and packet length. Figure \ref{fig:software_testdef_execution} explains full control flow in detail.
+	\item {\textbf{\texttt{TD\_CMD}}} : Command to trigger execution of a test definition (\ac{td}). A \ac{td} holds a \ac{lora} configuration (values for \ac{cf}, \ac{sf}, \ac{tp}, \ac{bw}, \ac{cr}, \ac{pl}), a required \ac{pc}, and packet length. Figure \ref{fig:software_testdef_execution} explains the full control flow in detail.
 	\end{itemize}
-	
 \begin{figure}[H]
     \centering
     \includegraphics{Figures/software_cmd_system.pdf}
@@ -32,11 +31,11 @@ The system is designed such that one device (a slave), can be left unattended at
 Slaves always listen to handle incoming commands, whereas the master can be set into two modes (other than idle):
 \begin{itemize}
 	\item \textbf{Heartbeat:} Sends periodic \texttt{HB\_CMD} commands, alerts user accordingly for every received or missed \textbf{\texttt{HB\_RSP}}.
-	\item {\textbf{Run \ac{td}s:} Loads all stored \ac{td}s and handles them sequentially using \textbf{\texttt{TD\_CMD}}s. \ac{td} results are stored separately in a folder timestamped with the execution time.}
+	\item {\textbf{Run \ac{td}s:} Loads all stored \ac{td}s and handles them sequentially using \textbf{\texttt{TD\_CMD}}s.}
 \end{itemize}
 
-Interfacing with the radio is handled by the RH\_RF95 driver from the Radiohead\footnote{Radiohead, https://www.airspayce.com/mikem/arduino/RadioHead/} library; this means that only the control logic needed to be implemented. Operation of the software is detailed in Appendix \ref{sec:user_manual}.
-
+Interfacing with the radio is handled by the RH\_RF95 driver from the Radiohead\footnote{Radiohead, https://www.airspayce.com/mikem/arduino/RadioHead/} library. Operation of the software is detailed in Appendix \ref{sec:user_manual}.
+\vspace{10mm}
 \begin{figure}[H]
     \centering
     \includegraphics{Figures/software_testdef_execution.pdf}

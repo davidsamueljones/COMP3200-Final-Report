@@ -1,0 +1,93 @@
+\chapter{Gantt Charts}
+
+% Current work
+\begin{figure}[H]
+\centering
+\begin{ganttchart}[vgrid, hgrid]{1}{14}
+  \gantttitle{Week}{14} \\
+  \gantttitlelist{1,...,14}{1} \\
+\ganttbar{Project decision\ \ }{1}{2} \\
+\ganttbar{Brief writing\ \ }{2}{2} \\
+\ganttmilestone{Project Brief\ \ }{2} \\
+\ganttlink{elem1}{elem2}
+\ganttbar{Research\ \ }{3}{13} \\
+\ganttbar{LoPy Testing\ \ }{3}{7} \\
+\ganttbar{RFM95 Testing\ \ }{9}{10} \\
+\ganttbar{Datalogger design\ \ }{11}{12} \\
+\ganttlinkedbar{Datalogger construction\ \ }{12}{13} \\
+\ganttbar{Interim report writing\ \ }{11}{13} \\
+\ganttmilestone{Interim Report\ \ }{13} 
+\ganttlink{elem8}{elem9}
+\end{ganttchart}
+\caption[Interim report Gantt chart]{Gantt chart for work up to interim report (week 13)}
+\label{pastgantt}
+\end{figure}
+\newpage
+
+% Planned work
+\vspace*{\fill}
+\begin{figure}[H]
+\centering
+\begin{ganttchart}[vgrid, hgrid]{1}{22}
+  \gantttitle{Week}{22} \\
+  \gantttitlelist{14,...,35}{1} \\
+\ganttbar{Datalogger software\ \ }{1}{2} \\
+\ganttlinkedbar{LoRa field testing\ \ }{2}{4}
+\ganttbar{}{7}{8} \\
+\ganttbar[bar/.append style={fill=red}]{Exam period\ \ }{5}{6} \\
+\ganttlink{elem3}{elem2}
+\ganttlinkedbar{Data analysis\ \ }{8}{10} \\
+\ganttbar{Simulator development\ \ }{9}{11} \\
+\ganttbar{Protocol development\ \ }{11}{17} \\
+\ganttbar{Protocol analysis\ \ }{13}{17} \\
+\ganttbar{Protocol field testing\ \ }{18}{19} \\
+\ganttbar{Final report writing\ \ }{16}{21} \\
+% Second
+\ganttmilestone{Final Report\ \ }{21} 
+\ganttlink{elem9}{elem10}
+\end{ganttchart}
+\caption[Planned progress Gantt chart]{Planned Gantt chart for work from interim report hand-in (week 13) up until hand-in of final report. Red indicates periods where no work completion was expected.}
+\label{futuregantt}
+\end{figure}
+\vspace*{\fill}
+\newpage
+% Planned work
+\vspace*{\fill}
+\begin{figure}[H]
+\centering
+\begin{ganttchart}[vgrid, hgrid]{1}{22}
+  \gantttitle{Week}{22} \\
+  \gantttitlelist{14,...,35}{1} \\
+\ganttbar{Datalogger software\ \ }{1}{2}
+\ganttbar{}{3}{5} \\
+\ganttlinkedbar{LoRa field testing\ \ }{2}{4}
+\ganttbar{}{7}{8} \\
+\ganttbar[bar/.append style={fill=red}]{Exam period\ \ }{5}{6} \\
+\ganttlink{elem3}{elem2}
+\ganttlinkedbar{Data analysis\ \ }{8}{10} \\
+\ganttbar{Simulator development\ \ }{9}{11} \\
+\ganttbar{Protocol development\ \ }{11}{17} \\
+\ganttbar{Protocol analysis\ \ }{13}{17} \\
+\ganttbar{Protocol field testing\ \ }{18}{19} \\
+\ganttbar{Final report writing\ \ }{16}{21} \\
+% Second
+\ganttmilestone{Final Report\ \ }{21} 
+\ganttlink{elem9}{elem10}
+\end{ganttchart}
+\caption[Actual progress Gantt chart]{Actual Gantt chart for work from interim report hand-in (week 13) up until hand-in of final report. Red indicates periods where no work completion occurred.}
+\label{futuregantt}
+\end{figure}
+\vspace*{\fill}
+
+
+
+%Datalogger software
+%LoRa field testing 
+%Data analysis
+%Protocol definition
+%Simulator development
+%Protocol implementation
+%Protocol testing
+%Final report creation
+
+
