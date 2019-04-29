@@ -1,63 +1,23 @@
 \chapter{Introduction}
 Decentralisation of wireless control and data sharing systems allows flexible deployment structures over large areas. Conversely, using a single centralised node, deployments are limited by that node's placement and its maximum communication range. This paper studies the application of \ac{lora}, an emerging long range, low power, radio frequency (\ac{rf}) technology, for the decentralised use case of sparse robot swarms. 
   
-Swarm robotics is the coordination of multi-robot systems such that a common goal can be achieved. Capabilities of a swarm should exceed that of any single robot in the swarm; be that attributed to increased coverage \cite{Ducatelle:2011:Pathfinding} or self-assembly methods \cite{3YP:OBSTACLE_SWARMS}. Robots will often have differing hardware/payloads so that either multiple terrain types can be handled, or to reduce robot costs (one robot need not possess all sensor types). Although, spreading robots across large areas opens up potential for many practical applications, including terrain mapping, and search and rescue, the sophistication of robots required in these real-world scenarios can make them prohibitively expensive, which can lead to limited robot density. These are referred to as sparse swarms. For the sake of perspective this paper assumes distances of at least 100m between robots, although, distances up to the communication medium's limit are considered. 
+Swarm robotics is the coordination of multi-robot systems such that a common goal can be achieved. Capabilities of a swarm should exceed that of any single robot in the swarm; be that attributed to increased coverage \cite{Ducatelle:2011:Pathfinding} or self-assembly methods \cite{3YP:OBSTACLE_SWARMS}. 
+%Robots will often have differing hardware/payloads so that either multiple terrain types can be handled, or to reduce robot costs (one robot need not possess all sensor types).
+ Although, spreading robots across large areas opens up potential for many practical applications, including terrain mapping, and search and rescue, the sophistication of robots required in these real-world scenarios can make them prohibitively expensive, which can lead to limited robot density. These are referred to as sparse swarms. For the sake of perspective this paper assumes distances that are beyond the capabilities of typical short-range communications such as Wi-Fi.
  
-Unlike a centralised control approach, swarms rely on robots sharing data directly so that all instances can build a combined interpretation of the environment. Although some data may need to be decimated to many or all robots in the network, the vast majority will only be of interest to local neighbours. Data of global interest may be for swarm management, e.g. voting decisions, or be generic, e.g. battery usage figures for specific terrain fingerprints. Whereas, data of local interest may consist of local area features, e.g. robot routes and found obstacles. In critical scenarios, for example when a robot failure is impending, large fast data dumps may be required. For concentrated deployments, these scenarios are trivial to implement using high-data-rate technologies such as Wi-Fi. However, in a real-world scenario, when inter-robot distance is significant, and there are line of sight (\ac{los}) obstructions (e.g. trees), an alternative physical method is required. This leads to the choice of \ac{lora}, detailed in Section \ref{sec:lora}. The system can be described as a mobile-ad-hoc-network (\ac{manet}), due to the ever changing topology caused by internal system changes (e.g. robot movement), or external system changes (e.g. weather).
+Unlike a centralised control approach, swarms rely on robots sharing data directly so that all instances can build a combined interpretation of the environment. Although some data may need to be decimated to many or all robots in the network, the vast majority will only be of interest to physically local neighbours. Data of global interest may be for swarm management, e.g. voting decisions, or be generic, e.g. battery usage figures for specific terrain fingerprints. Whereas, data of local interest may consist of local area features, e.g. robot routes and found obstacles. In critical scenarios, for example when a robot failure is impending, large fast data dumps may be required. Alternatively, data can be continuously aggregated and distributed in a BitTorrent-like fashion, though \cite{3YP:SOUL}.
 
-Although \ac{lora} is fundamentally ideal for long-range applications and operates in the low attenuation Sub-1GHz band, scenario specific conditions of ground-level transmissions and high-propagation environments are not ideal for any \ac{rf} communications. Therefore this project initially covers real-world testing in free-space and forests to assess how sparse swarm deployment scenarios may affect \ac{lora}'s physical radio performance. Using these figures and understanding of \ac{lora}'s properties, it is reasoned why conventional \ac{manet} protocols are not always appropriate. A focus is then placed on understanding how \ac{lora} hardware parameters and regional \ac{rf} regulations can be exploited to improve message throughput in the single-hop broadcast scenario; this leads to the definition of the LoRa Local Broadcast Protocol (\ac{llbp}). The protocol's performance is compared to typical \ac{csma} approaches using mesh simulations that utilise demodulation models extracted from real-world testing and \ac{lora} collision models from literature. 
+For concentrated deployments, these scenarios are trivial to implement using high-data-rate technologies such as Wi-Fi. However, in a real-world scenario, when inter-robot distance is significant, and there are line of sight (\ac{los}) obstructions (e.g. trees), an alternative physical medium is required. This leads to the choice of \ac{lora}, detailed in Section \ref{sec:lora}. The system can be considered as a mobile-ad-hoc-network (\ac{manet}), due to the ever changing topology caused by internal system changes (e.g. robot movement), or external system changes (e.g. weather).
 
-%Consideration is given for how the proposed methods would affect implementation of industry standard multi-hop \ac{manet} methods but the behaviour is not verified.
+Although \ac{lora} is fundamentally ideal for long-range applications and operates in the low attenuation Sub-1GHz band, scenario specific conditions of ground-level transmissions and high-propagation environments are not ideal for any \ac{rf} communications. Therefore this project initially covers real-world testing in free-space and forests to assess how sparse swarm deployment scenarios may affect \ac{lora}'s physical radio performance. From this, demodulation models are extracted and combined with \ac{lora} collision models from literature to create a simulator for testing \ac{lora} ad-hoc scenarios. This simulator is then used to analyse the effectiveness of three \ac{mac} protocols with the aim of prioritising data distribution to physically local neighbours. Two methods utilise common approaches (ALOHA and \ac{csma}), and the third attempts to exploit hardware parameters and regional \ac{rf} regulations; this is defined as the LoRa Local Broadcast Protocol (\ac{llbp}).
 
-%
-%
 %Alongside the physical communication medium, a  is needed.
 %Many MAC layer protocols exist 
 %\cite{3YP:FLOCK_1, 3YP:FLOCK_2, 3YP:FLOCK_3}
-%
-%From this, potential medium access control (\ac{mac}) layers are considered. It is reasoned why,
-%
-%This paper defines the  to handle the sharing of 
+%Separation distance is less of an issue as much existing work covers guaranteeing minimum connectivity via positioning !!!.
 
-%This local-broadcast heavy nature means that unicast focused protocols waste precious 
-%
-
-
-%
 %Power usage must be proportionate to that of the overall robot,  i.e. power usage can exceed that of nodes in a fixed-position sensor network but not extend to long range Wi-Fi. In a real-world scenario the communications must be robust to physical environmental changes, which can stem from circumstances that are either external to the system, such as weather, or internal to the system, such as robot positioning. The latter having resulting factors such as varying separation distance or change in line of sight propagation caused by obstacles (e.g. trees and ridges). Wi-Fi signals in the 2.4GHz or 5GHz bands are easily attenuated so an alternative physical medium is required; this leads to the choice of \ac{lora}, which operates in the Sub-1GHz band.
 
-%
-% In an ideal scenario a robot could talk to any other robot in a single hop, though when considering  
-
-%  Sacrafice three bytes on every message so all nodes know gps coordinates  
-%  Add target id to packet
-
-%Class \ref{ref:msgTypeControl} messages are likely to be small, whereas the other classes will often require multiple packet messages. It would not usually be system critical for Class \ref{ref:msgTypeLocalBroadcast} and \ref{ref:msgTypeGlobalBroadcast} messages  to fail but a failed Class \label{ref:msgTypeUnicast} could result in a missed search result.
-
-%
-%Staying away from the constraints \ac{lora}WAN presents make AODV viable but still not preferred.
-%
-%information from all nodes before redistributing this and commands to all nodes.
-%
-%
-% handling all node 
-%
-%
-% collect data from, make decisions for, and send commands, to all other nodes. 
-%
-%
-%dynamic topology
-%Significant data transfers are required
-%In the case of robot
-%This is a vast research area covering topics such as data distribution algorithms, radio parameter selection 
-%% What is specifically different about situation (ground, no sink, environmental factors), Rapidly changing...
-%and jamming. If radio hardware is designed for a worst case scenario, the throughput for normal situations will ve greatly impaired. If the hardware is designed for an average situation. the network risks partition
-%under stress because of poor radio links.
+%If radio hardware is designed for a worst case scenario, the throughput for normal situations will ve greatly impaired. If the hardware is designed for an average situation. the network risks partition under stress because of poor radio links.
 
 %The target should be to minimise airtime. Longer airtime increases collision chance and reduces throughput of the network as a whole.
-%
-%Separation distance is less of an issue as much existing work covers guaranteeing minimum connectivity via positioning !!!.
-% 
-% Short data messages can be broadcast by all to get to their location
-% Getting back to source can use GPS coordinates to decide whether relay is a good idea
-% Local broadcasts can do a fetch respond system

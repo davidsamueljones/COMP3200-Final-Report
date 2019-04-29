@@ -19,7 +19,7 @@ A system is said to be link limited when the channel losses result in a receive 
     \item \textbf{Carrier Frequency (\ac{cf})}: The centre frequency of chirps. Current hardware targets some sub-range of 137MHz to 1020MHz at a resolution of 61Hz \cite{3YP:LORA_SX12}. 
     \item \textbf{Coding Rate (\ac{cr})}: The amount of redundant information encoded in symbols for forward error correction (\ac{fec}); trade-offs can be seen in Table \ref{cr_effect}. \ac{fec} is most effective in the presence of burst interference \cite{3YP:LORA_MOD_BASICS}.
     \item \textbf{Preamble Symbols (\ac{ps})}: The number of programmed preamble symbols sent for receiver synchronisation. Packet receive percentage (\ac{prp}) has been shown to increase with an increased \ac{ps} up to a certain threshold \cite{3YP:LORA_PERFORMANCE}. Increasing length can also improve performance of \ac{cad} (see Section \ref{sec:cad}).
-    \item \textbf{Spreading Factor (\ac{sf})}: The ratio of chip rate to bit rate, where chips per symbol is given as $2^{SF}$. Receiver sensitivity increases in line with spreading factor and is therefore a factor in the link budget \cite{3YP:LORA_SX12}. The trade-offs can be seen in Table \ref{sf_effect}.
+    \item \textbf{Spreading Factor (\ac{sf})}: The ratio of chip rate to bit rate, where chips per symbol is given as $2^{\text{\ac{sf}}}$. Receiver sensitivity increases in line with spreading factor and is therefore a factor in the link budget \cite{3YP:LORA_SX12}. The trade-offs can be seen in Table \ref{sf_effect}.
     \item \textbf{Transmission Power (\ac{tp})}: The radio output power. Equation \ref{eq:link_budget} highlights how an increased \ac{tp} directly increases link budget with the obvious drawback of higher power usage. 
 \end{itemize}
 
@@ -57,15 +57,15 @@ A system is said to be link limited when the channel losses result in a receive 
 \label{sf_effect}
 \end{table}
 \label{sec:parameter_selection}
-Selection of these parameters is often manual, however mechanisms such as \ac{lorawan}'s adaptive data-rate (\ac{adr}) \cite{3YP:LORAWAN}, or ``probing algorithms'', as proposed by \cite{3YP:CHOOSING_LORA_PARAMETERS}, can be used to choose these parameters such that transmission energy is reduced whilst maintaining an adequate throughput and link budget. \ac{lorawan} abstracts \ac{sf}s and \ac{bw}s into a set of orthogonal data-rates to simplify selection, where lower data-rates have higher range \cite{3YP:LORAWAN_REGIONAL_PARAMS}. It has been suggested that \ac{adr} has low-scalability due to packet count requirements \cite{3YP:LORAWAN_ADR} and is slow to converge \cite{3YP:LORAWAN_ADR_AGILITY}. Likewise \cite{3YP:CHOOSING_LORA_PARAMETERS} requires a large number of initial transmissions, making both only suitable for static nodes in a gateway controlled network.
+Selection of these parameters is often manual, however mechanisms such as \ac{lorawan}'s adaptive data-rate (\ac{adr}) \cite{3YP:LORAWAN}, or ``probing algorithms'', as proposed by \cite{3YP:CHOOSING_LORA_PARAMETERS}, can be used to choose these parameters such that transmission energy is reduced whilst maintaining an adequate throughput and link budget. \ac{lorawan} abstracts \ac{sf}s and \ac{bw}s into a set of orthogonal data-rates (\ac{dr}s) to simplify selection, where lower data-rates have higher range \cite{3YP:LORAWAN_REGIONAL_PARAMS}. It has been suggested that \ac{adr} has low-scalability due to packet count requirements \cite{3YP:LORAWAN_ADR} and is slow to converge \cite{3YP:LORAWAN_ADR_AGILITY}. Likewise \cite{3YP:CHOOSING_LORA_PARAMETERS} requires a large number of initial transmissions, making both only suitable for static nodes in a gateway controlled network.
 
-\subsection{Airtime}
+\subsection{Airtime}\label{sec:airtime}
 To understand a configuration's performance, it is critical to know its airtime; this defines bitrate and affects channel contention methods. The total airtime of a transmission (Equation \ref{eq:airtime}) is dependent on the number of symbols being transmitted (Equation \ref{eq:symbol_count}) and the time each symbol takes to send. Preamble and payload are calculated individually as it can be useful to consider them as separate components for purposes such as \ac{cad}. Equations are adapted from \cite{3YP:LORA_SX12} to suit the notation and formats used by this paper.
 \begin{subequations}
 \label{eq:symbol_count}
 \begin{align}
-	S_{preamble} &= \ac{ps} + 4.25 \\
-	S_{payload} &= 8 + max\left( ceil\left[ \frac{8\ac{pl}-4\ac{sf}+16\ac{crc}+20\ac{eh}+8}{4(\ac{sf}-2LDR)}\right] \frac{1}{\ac{cr}},\enskip 0\right) \\
+	S_{preamble} &= \text{\ac{ps}} + 4.25 \\
+	S_{payload} &= 8 + \max\left( \text{ceil}\left[ \frac{8\text{\ac{pl}}-4\text{\ac{sf}}+16\text{\ac{crc}}+20\text{\ac{eh}}+8}{4(\text{\ac{sf}}-2\text{LDR})}\right] \frac{1}{\text{\ac{cr}}},\enskip 0\right) \\
 	S_{total} &= S_{preamble} + S_{payload} 
 \end{align}
 \end{subequations}
@@ -74,9 +74,9 @@ The unmentioned factors in Equation \ref{eq:symbol_count} are: the number of byt
 \begin{subequations}
 \label{eq:airtime}
 \begin{align}
-	T_{s} &= \frac{1}{S_R} = \frac{2^{\ac{sf}}}{\ac{bw}}\\
-	T_{preamble} &=  S_{preamble}\times T_{s}\\
-	T_{payload} &= S_{payload}\times T_{s} \\
+	T_{s} &= \frac{1}{S_R} = \frac{2^{\text{\ac{sf}}}}{\text{\ac{bw}}}\label{eq:symbol_time} \\
+	T_{preamble} &=  S_{preamble}\cdot T_{s}\\
+	T_{payload} &= S_{payload}\cdot T_{s} \\
 	T_{a} = T_{packet} &= T_{preamble} + T_{payload}
 \end{align}
 \end{subequations}
@@ -99,17 +99,17 @@ Equation \ref{eq:airtime} highlights that each \ac{sf} increment will cause $T_a
 
 \begin{table}[H]
 \centering\small
-\caption[\ac{lora} collision scenarios]{Collation of \ac{lora} collision scenarios as defined by \cite{3YP:LORA_FOR_IOT} and \cite{3YP:LORA_COLLISIONS}. \cite{3YP:LORA_COLLISIONS}'s definition of the important preamble ($IP$) is used: the four fixed preamble symbols and proceeding two symbols of the programmed preamble. Situations use two transmission sources (A and B) and one receive source (C).}
+\caption[\ac{lora} collision scenarios]{Collation of \ac{lora} collision scenarios as defined by \cite{3YP:LORA_FOR_IOT} and \cite{3YP:LORA_COLLISIONS}. \cite{3YP:LORA_COLLISIONS}'s definition of the important preamble (IP) is used: the four fixed preamble symbols and proceeding two symbols of the programmed preamble. Situations use two transmission sources (A and B) and one receive source (C).}
 \begin{tabular}{c|cc|c}
     \toprule
     \textbf{ID} & \textbf{Time} & \textbf{Power} & \textbf{$C$ Result}\\
     \midrule\addlinespace
-    A & $B_{start} > A_{IP}$ & $A_{\ac{rps}} \geq B_{\ac{rps}}$ & Receives $A$ \\
-    B & $B_{start} > A_{IP}$ & $A_{\ac{rps}} < B_{\ac{rps}}$ &  Receives $A$ \\
-    C & $B_{start} > A_{IP}$ & $A_{\ac{rps}} \ll B_{\ac{rps}}$ & CRC Fail $A$ \\
-    D & $B_{start}$ inside $A_{IP}$ & $A_{\ac{rps}} \leq B_{\ac{rps}}$ & Collision \\
-    E & $B_{IP} \approx A_{IP}$ & $A_{\ac{rps}} \approx B_{\ac{rps}}$ & Collision \\
-    F & $B_{IP} \approx A_{IP}$ & $A_{\ac{rps}} \gg B_{\ac{rps}}$ & Receives $A$ \\
+    A & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \geq B_{\text{\ac{rps}}}$ & Receives A \\
+    B & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} < B_{\text{\ac{rps}}}$ &  Receives A \\
+    C & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \ll B_{\text{\ac{rps}}}$ & CRC Fail A \\
+    D & $B_{start}$ \textit{inside} $A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \leq B_{\text{\ac{rps}}}$ & Collision \\
+    E & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \approx B_{\text{\ac{rps}}}$ & Collision \\
+    F & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \gg B_{\text{\ac{rps}}}$ & Receives $A$ \\
     \addlinespace\bottomrule
 \end{tabular}
 \label{tab:collisions}
@@ -122,8 +122,8 @@ Equation \ref{eq:airtime} highlights that each \ac{sf} increment will cause $T_a
 \subsection{Channel Activity Detection (\ac{cad})}\label{sec:cad}
 Carrier-sensing is a helpful mechanism for radios to check whether a channel is busy or idle. Usually, this is achieved by checking the power present in the channel using the received signal strength indicator (\ac{rssi}). This is a very unreliable method for \ac{lora} because the \ac{rssi} includes channel noise, and \ac{lora} signals can operate below the noise floor. For this reason, \ac{lora} radios offer a specialised \ac{cad} method, which searches the channel for a single \ac{lora} packet preamble symbol. \ac{cad} is at least 97\% reliable in the presence of preamble with false positives occuring just 0.1\% of the time \cite{3YP:LORA_FOR_IOT}. It has been shown that \ac{cad} can in fact detect non-preamble symbols when there is high signal strength, although this ability quickly becomes unreliable in a real world scenario \cite{3YP:LORA_CSMA}.
 
-\subsection{Signal Orthogonality}
-The manner of \ac{lora}'s modulation allows multiple signals to co-exist in the same channel provided they have a different chirp rate, where $C_R = \ac{bw} \times S_R$, otherwise written as $C_R = \frac{\ac{bw}^2}{2^{\ac{sf}}}$. This clearly demonstrates that for a single bandwidth, all \ac{sf}s must be orthogonal to one another. However, in the case that different \ac{bw}s are used, different \ac{sf}s may have the same chirp rate and could interfere; this is demonstrated in Figure \ref{fig:orthogonality}.
+\subsection{Signal Orthogonality}\label{sec:sf_orthogonality}
+The manner of \ac{lora}'s modulation allows multiple signals to co-exist in the same channel provided they have a different chirp rate, where $C_R = \text{\ac{bw}} \cdot S_R$, otherwise written as $C_R = \frac{\text{\ac{bw}}^2}{2^{\text{\ac{sf}}}}$. This clearly demonstrates that for a single bandwidth, all \ac{sf}s must be orthogonal to one another. However, in the case that different \ac{bw}s are used, different \ac{sf}s may have the same chirp rate and could interfere; this is demonstrated in Figure \ref{fig:orthogonality}.
 
 \begin{figure}[H]
     \centering

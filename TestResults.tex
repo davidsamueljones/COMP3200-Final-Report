@@ -13,7 +13,7 @@ In total 498 test cases were executed, totalling 24,900 packet transmissions. Of
 \section{Discussion}
 Results are considered in two domains: the demodulation performance of the radio, and the environment effects. This is done because, even though actual receive performance varies with factors such as distance and attenuation, these can be abstracted into changes of the underlying \ac{snr} and \ac{rps} figures seen by the receiver. As there are no other transmission sources in this testing, theoretically, if these figures are within the required bounds for demodulation success, receives are successful.
 
-\subsection{Demodulation Performance}
+\subsection{Demodulation Performance}\label{sec:demodulation_performance}
 When $\ac{snr} \leq 0$ the \ac{rssi} value indicates the amount of noise seen by the receiver in the presence of no packet. When operating at 868MHz, the noise that the receiver should see is approximately the thermal noise floor ($-174+10log_{10}(BW)$), plus the receiver noise figure; \ac{lora} implementations should have a noise figure of around 6dBm \cite{3YP:LORA_MOD_BASICS}. This indicates that for a 125kHz receive, the noise floor ($n_f$) should be -117dBm. The empirical noise floor calculated across all locations was -103dBm with a standard deviation of -109dBm; this is 14dBm ($24\times$) higher than expected. As the variance is low, this result indicates that the RFM95W hardware is of much poorer quality than expected, with a noise figure of 20dBm.
 
 Whether the radio receives a transmission is dictated by whether the received power exceeds the receiver sensitivity ($R_S$). For \ac{lora} modules, $R_S = n_f - \ac{sf}_{lim}$, where $SF_{lim}$ is the minimum SNR required for the current \ac{sf}. Theoretical limits are $-7.5, -10, -12.5, -15, -17.5, -20$ for $\ac{sf} = 7, 8, 9, 10, 11, 12$ respectively \cite{3YP:LORA_SX12}. This performance is explored in Figure \ref{fig:sf_pp_separate} and \ref{fig:sf_pp_fit}. In short, performance is close to theoretical for $\ac{sf} = 7, 8, 9, 10$ but $SF=11\enskip \& \enskip 12$ perform similarly to $SF=10$, just with higher reliably. For all configurations, receive success is highly variant when approaching the empirical sensitivity.
@@ -28,7 +28,6 @@ Whether the radio receives a transmission is dictated by whether the received po
     \label{fig:sf_pp_separate}
 \end{figure}
 \vspace{-0.5cm}
-
 \begin{figure}[H]
     \centering
    	\includegraphics{Figures/sf_fit_plot}
@@ -41,13 +40,11 @@ Whether the radio receives a transmission is dictated by whether the received po
 Theoretically, higher \ac{cr}s will result in more data being recovered from a transmissions allowing for greater receive success. Comparative tests are plotted in Figure \ref{fig:cr_pp_plot}. As no strong visual conclusions can be made, a null hypothesis is proposed; $H_{0} : $ \textit{The mean \ac{prp} does not increase between receives using \ac{cr} 4/5 and \ac{cr} 4/8} (otherwise written as $4/5_{\ac{prp}} \geq 4/8_{\ac{prp}}$). The respective means are 71.8\% and 72.5\%. Using a left-tailed Wilcoxon signed rank test for non-normal distributions gives $p=41.2\%$. With a 5\% significance level,  $H_{0}$ cannot be rejected, indicating that \ac{cr} has no effect on \ac{prp}.  Given that the \ac{snr}s are not significantly different \textit{(hypothesis testing omitted)} this indicates that receive drop-off and high variance when approaching sensitivity limits is the limiting factor for demodulation. The lack of \ac{cr} effect is unsurprising given that \ac{fec}'s main performance should be seen in the presence of burst interference.
 
 When the amount of data increases in a packet, its airtime will increase for the same configuration; this can lead to more channel noise being introduced (lower \ac{snr}) and receiver clock drift (lower demodulation performance). The effect this has on comparative tests is plotted in Figure \ref{fig:pl_pp_plot}. The mean \ac{prp}s of $\ac{pl} = 20, 128, 255$ are $81.7\%$, $78.8\%$ and $76.8\%$ respectively.  Three null hypotheses are proposed: $H^1_{0} : 20_{\ac{prp}} \leq 128_{\ac{prp}}$, $H^2_{0} : 20_{\ac{prp}} \leq 255_{\ac{prp}}$ and $H^3_{0} : 128_{\ac{prp}} \leq 255_{\ac{prp}}$. Using right-tailed Wilcoxon signed rank tests with 5\% significance, $H^1_{0}$ ($p=1.1\%$) and $H^2_{0}$ ($p=0.0\%$) are rejected but $H^3_{0}$ ($p=13.6\%$) is not. Therefore alternative hypotheses can be accepted  $H^1_{A}=20_{\ac{prp}} \geq 128_{\ac{prp}}$ and $H^2_{A}=20_{\ac{prp}} \geq 255_{\ac{prp}}$. Given that the \ac{snr}s are not significantly different \textit{(hypothesis testing omitted)}, and that $H^3_{A}$ is narrowly rejected, a loose relationship between increased \ac{pl} and lower demodulation performance of the receiver is assumed.
-
-
 \begin{figure}[H]
     \centering
    	\includegraphics{Figures/cr_pp_plot}
     \caption[Effect of Coding Rate on \ac{snr} and \ac{prp}]{
-    Plot of \ac{snr} and \ac{prp} for varying \ac{cr}s. Only configurations where all other factors are identical are included (e.g. height, location, \ac{lora} configuration). A line joins each set of points with a matching configuration. \ac{sf} colouring from previous figures is applied to highlight when \ac{snr} limits start to reduce receive probability. When $SNR > -5$, the \ac{prp} is nearly always 100\% and is therefore excluded. Visual indications are that there is little pattern in the data with 4/5s sometimes outperforming 4/8s and vice versa.
+    Plot of \ac{snr} and \ac{prp} for varying \ac{cr}s. Only configurations where all other factors are identical are included (e.g. height, location, \ac{lora} configuration). A line joins each set of points with a matching configuration. \ac{sf} colouring from previous figures is applied to highlight when \ac{snr} limits start to reduce receive probability. When $SNR > -5$, the \ac{prp} is nearly always 100\% and is therefore excluded.
     }
     \label{fig:cr_pp_plot}
 \end{figure}
@@ -56,12 +53,12 @@ When the amount of data increases in a packet, its airtime will increase for the
     \centering
    	\includegraphics{Figures/pl_pp_plot}
     \caption[Effect of Packet Length on \ac{snr} and \ac{prp}]{
-    Plot of \ac{snr} and \ac{prp} for varying \ac{pl}s. Only configurations where all other factors are identical are included. A line joins each set of points with a matching configuration. \ac{sf} colouring from previous figures is applied to highlight when \ac{snr} limits start to reduce receive probability. When $SNR > 0$, the \ac{prp} is nearly always 100\% and is therefore excluded. Visual indications are that the longer \ac{pl}s have a lower \ac{prp}.
+    Plot of \ac{snr} and \ac{prp} for varying \ac{pl}s. Only configurations where all other factors are identical are included. A line joins each set of points with a matching configuration. \ac{sf} colouring from previous figures is applied to highlight when \ac{snr} limits start to reduce receive probability. When $SNR > 0$, the \ac{prp} is nearly always 100\% and is therefore excluded.
     }
     \label{fig:pl_pp_plot}
 \end{figure}
 
-\subsection{Environment Effects}
+\subsection{Environment Effects}\label{sec:environment_propagation}
 Free-space is the least attenuating environment possible and as such a transmission in free-space should represent the minimum path loss over a given distance; directly leading to the maximum transmission distance. The minimum free space path loss (\ac{fspl}), is calculated as $20\log_{10}(d) + 20\log_{10}(f) - 27.55$ where $d$ is distance in meters and $f$ is frequency in MHz \cite{3YP:ANTENNA_BOOK}. A more reasonable estimate must take into account effects such as ground reflection. The plain earth (\ac{pe}) model considers this and is calculated as $40\log_{10}(d) - 20\log_{10}(h_r) - 20\log_{10}(h_t)$ \cite{3YP:COMBINING_MODELS}. These are all plotted on Figure \ref{fig:distance_pl_plot}. Although transmissions occur at $0.0m$, receiver height ($h_r$) and transmitter height ($h_t$) are measured as the top of the antenna ($h_r = h_t = 0.17m$). As neither model fits the test data, with \ac{fspl} underestimating and \ac{pe} overestimating path loss, an empirical log-model is calculated as $91\log_{10}(d+362)-167$ (E-FSPL). This model fits the curve well but does not necessarily capture the variance caused by fading, as is reflected by only 83\% of data points falling in the 90\% confidence bound.
 
 \begin{figure}[H]

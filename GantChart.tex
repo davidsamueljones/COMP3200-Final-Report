@@ -20,7 +20,7 @@
 \ganttlink{elem8}{elem9}
 \end{ganttchart}
 \caption[Interim report Gantt chart]{Gantt chart for work up to interim report (week 13)}
-\label{pastgantt}
+\label{fig:past_gantt_chart}
 \end{figure}
 \newpage
 
@@ -47,35 +47,36 @@
 \ganttlink{elem9}{elem10}
 \end{ganttchart}
 \caption[Planned progress Gantt chart]{Planned Gantt chart for work from interim report hand-in (week 13) up until hand-in of final report. Red indicates periods where no work completion was expected.}
-\label{futuregantt}
+\label{fig:planned_gantt_chart}
 \end{figure}
 \vspace*{\fill}
 \newpage
-% Planned work
+
+% Actual work
 \vspace*{\fill}
 \begin{figure}[H]
 \centering
-\begin{ganttchart}[vgrid, hgrid]{1}{22}
-  \gantttitle{Week}{22} \\
-  \gantttitlelist{14,...,35}{1} \\
-\ganttbar{Datalogger software\ \ }{1}{2}
-\ganttbar{}{3}{5} \\
-\ganttlinkedbar{LoRa field testing\ \ }{2}{4}
-\ganttbar{}{7}{8} \\
+\begin{ganttchart}[vgrid, hgrid]{1}{21}
+  \gantttitle{Week}{21} \\
+  \gantttitlelist{14,...,34}{1} \\
+\ganttbar{Datalogger Software\ \ }{1}{3} \ganttbar{}{7}{7} \ganttbar{}{9}{9} \\
+\ganttbar{Datalogger Testing\ \ }{4}{4} \ganttbar{}{7}{7}\\
 \ganttbar[bar/.append style={fill=red}]{Exam period\ \ }{5}{6} \\
-\ganttlink{elem3}{elem2}
-\ganttlinkedbar{Data analysis\ \ }{8}{10} \\
-\ganttbar{Simulator development\ \ }{9}{11} \\
-\ganttbar{Protocol development\ \ }{11}{17} \\
-\ganttbar{Protocol analysis\ \ }{13}{17} \\
-\ganttbar{Protocol field testing\ \ }{18}{19} \\
-\ganttbar{Final report writing\ \ }{16}{21} \\
+\ganttbar{LoRa Field Testing\ \ }{8}{10} \ganttbar[bar/.append style={fill=blue}]{}{12}{12} \ganttbar{}{14}{14} \\
+\ganttbar{Data Analysis\ \ }{11}{12} \ganttbar{}{14}{15} \\
+\ganttbar{Simulator GUI\ \ }{12}{13} \\
+\ganttbar{Simulator Model\ \ }{13}{16} \\
+\ganttbar{Simulator Test Infrastructure\ \ }{16}{16} \\
+\ganttbar{Protocol Design \ \ }{14}{17} \\
+\ganttbar{Protocol Implementation\ \ }{17}{18} \\
+\ganttbar{Protocol Testing\ \ }{19}{19} \\
+\ganttbar{Final Report Writing\ \ }{15}{20} \\
 % Second
-\ganttmilestone{Final Report\ \ }{21} 
-\ganttlink{elem9}{elem10}
+\ganttmilestone{Final Handin\ \ }{20} 
 \end{ganttchart}
-\caption[Actual progress Gantt chart]{Actual Gantt chart for work from interim report hand-in (week 13) up until hand-in of final report. Red indicates periods where no work completion occurred.}
-\label{futuregantt}
+\caption[Actual progress Gantt chart]{Actual Gantt chart for work from interim report hand-in (week 13) up until hand-in of final report. Note that initial plans expected one more week due to an incorrect date on the project website. Red indicates periods where no work completion occurred. Noticeably, aspects such as data collection and software development did not happen continuously, short breaks occurred to allow previous work to be analysed and to feedback into development/testing. The blue field testing block identifies where unsuccessful data collection occurred, a minor change to the datalogger software resulted in all wet-weather data collection on that day being invalid; this was fixed for future data collection but ultimately resulted in a lack of wet-weather data as no rain occurred in at a time testing could be scheduled.
+}
+\label{fig:actual_gantt_chart}
 \end{figure}
 \vspace*{\fill}
 

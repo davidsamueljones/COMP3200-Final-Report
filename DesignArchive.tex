@@ -1,0 +1,87 @@
+\chapter{Design Archive}
+\begingroup
+\raggedright\small
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+\newlength\Size
+\setlength\Size{4pt}
+\tikzset{%
+  folder/.pic={%
+    \filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);
+    \filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.15*\Size,-\Size) rectangle (1.15*\Size,\Size);
+  },
+  file/.pic={%
+    \filldraw [draw=folderborder, top color=folderbg!5, bottom color=folderbg!10] (-\Size,.4*\Size+5pt) coordinate (a) |- (\Size,-1.2*\Size) coordinate (b) -- ++(0,1.6*\Size) coordinate (c) -- ++(-5pt,5pt) coordinate (d) -- cycle (d) |- (c) ;
+  },
+}
+\forestset{%
+  declare autowrapped toks={pic me}{},
+  pic dir tree/.style={%
+    for tree={%
+      folder,
+      font=\ttfamily,
+      grow'=0,
+    },
+    before typesetting nodes={%
+      for tree={%
+        edge label+/.option={pic me},
+      },
+    },
+  },
+  pic me set/.code n args=2{%
+    \forestset{%
+      #1/.style={%
+        inner xsep=2\Size,
+        pic me={pic {#2}},
+      }
+    }
+  },
+  pic me set={directory}{folder},
+  pic me set={file}{file},
+}
+
+
+Overview of folder structure in the design archive, not all low-level folders are indicated.\\
+\vspace{5mm}
+
+\begin{forest}
+  pic dir tree,
+  where level=0{}{
+    directory,
+  },
+[design\_archive.zip, file
+  [datalogger\_schematic
+  ]
+  [datalogger\_source
+    [LoRa\_Datalogger
+    ]
+    [LoRa\_Board\_ID\_Setter
+    ]
+  ]
+  [logged\_data
+    [location\_pictures
+  	]
+  	[location\_results
+  	]
+  	[testdefs
+  	]
+  ]
+  [processing\_scripts
+  ]
+  [simulator\_output\_data
+  ]
+  [simulator\_source
+      [LoRa\_Simulator
+    ]
+  ]
+]
+\end{forest}
+
+\textit{PlatformIO build files provided for datalogger source} \\
+\textit{Maven POM (Project Object Model) file provided for building simulator.}
+
+\textit{MATLAB scripts require the library functions \texttt{sigm\_fit}\footnote{\texttt{sigm\_fit.m}, rpavao@gmail.com, 2016}, \texttt{vline}/\texttt{hline}\footnote{\texttt{vline.m}/\texttt{hline.m}, Brandon Kuczenski, Kensington Labs, 2001} and \texttt{haversine}\footnote{\texttt{haversine.m}, Josiah Renfree, 2010}}
+\endgroup
+
+
+

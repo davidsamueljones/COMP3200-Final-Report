@@ -1,6 +1,6 @@
 \chapter{Risk Management}
-\centering\small
 \begin{table}[H]
+\centering\small
 \caption[Risk analysis]{Updated risk analysis from progress report with a final comment on whether each identified risk arose and if it did, how it was dealt with.}
 \label{risk_analysis}
 \end{table}
@@ -15,7 +15,7 @@
 \midrule
 \multirow{2}{*} B & Datalogger gets water damage from weather. & Low & High & Verify integrity of IP67 storage medium. Leave in covered positions. If mitigation fails, attempt to fix any broken parts with remaining budget (see Figure \ref{fig:budget_breakdown}).  \\
 \addlinespace
-& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{For the most part weather and conditions were dry. However, the two days of data collection in the rain posed no issues.}}\\
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{For the most part weather and conditions were dry. However, the day of data collection in the rain posed no issues.}}\\
 \midrule
 \multirow{2}{*} C & Required distances with suitable terrain for test cases cannot be found. & Medium & Low & Radios use low power output so extreme test distances are not expected. Constant line of sight obstructions should not distort between-test results. \\
 \addlinespace
@@ -27,7 +27,7 @@
 \midrule
 \multirow{2}{*} E & No clear protocol requirements can be determined from data. & Medium & Very High & Gather data from other more unique scenarios. At last resort change project focus to experimental research write-up.   \\
 \addlinespace
-& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{A clear theoretical problem could be identified quickly (avoiding collisions in ad-hoc scenarios). Test data also verified that \ac{sf}s could be key to mitigating protocol overhead. However, finding a solution that could utilise this was not trivial, this was perhaps unsurprising given that similar issues are a massive networking research topic and there is no `good' solution.}}\\
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{A clear theoretical problem could be identified quickly (avoiding collisions in ad-hoc scenarios). Test data also verified that \ac{sf}s could be key to mitigating protocol overhead. However, finding a working solution that could utilise this was not trivial and was ultimately unsuccessful. This was perhaps unsurprising given that similar issues are a massive networking research topic and there is no `good' solution.}}\\
 \midrule
 \multirow{2}{*} F & Created simulation does not reflect real world scenario. & High & Medium & Provided deficiencies are known, they can be accounted for in result write-up.  \\
 \addlinespace
@@ -35,8 +35,7 @@
 \midrule
 \multirow{2}{*} G & Proposed protocol cannot be implemented in time. & High & Medium & Keep protocol scope to the specified proposal (do not make a fully featured protocol). Consider creating an overlay for existing protocols e.g. \ac{lorawan}.   \\
 \addlinespace
-& \multicolumn{4}{L{12.9cm}}{\textbf{Comment:} \textit{
-%Due to the large number of proceeding tasks, protocol implementation was very delayed. 
+& \multicolumn{4}{L{12.9cm}}{\textbf{Comment: } \textit{ Due to the large number of proceeding tasks there was not enough time left for complex protocol creation; this was compounded by the fact no good protocol principles seemed to be applicable. Instead testing of the common ALOHA and CSMA protocols, alongside a simple broadcast announcement protocol, was carried out. Work was reprioritised into creating a powerful simulation tool to this end.
 }}\\
 \midrule
 \multirow{2}{*} H & Loss of code or data. & Low & Very High & Make use of git version control. Make frequent commits and push to a safe origin (e.g. GitHub) frequently.  \\
