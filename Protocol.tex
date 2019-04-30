@@ -2,18 +2,18 @@
 In this section three contention-based \ac{mac} protocols are considered to handle the requirement of data transfers to physically close neighbours: a base case (ALOHA), a common approach (\ac{csma}) and a scenario specific approach (\ac{llbp}). 
 
 \section{Considerations}\label{sec:mac_considerations}
-Designing approaches so that as many radios as possible receive a transmission is of little help; from the receiver's perspective, if local-interest data is received 1500m away, the transmission is unwanted and increasing the chance of a local collision. To this end a wanted criteria is defined as the maximum distance for which data is considered helpful; this is set to the worst-case transmission distance (500m).
+Designing approaches so that as many radios as possible receive a transmission is of little help; from the receiver's perspective, if local-interest data is received 1500m away, the transmission is unwanted and increasing the chance of a local collision. To this end a criteria is defined as the maximum distance for which data is `wanted'; this is set to the worst-case transmission distance (500m).
 
-The \ac{lora} configurations used are the abstracted \ac{dr}s from \ac{lorawan} \cite{3YP:LORAWAN_REGIONAL_PARAMS}; however, DR0 and DR2 are disregarded due to their lack of respective \ac{sf} performance. Although small packets ($< 20\enskip \text{bytes}$) have been shown to have slightly higher receive probability, they are not practical with transmission overhead, therefore packets are allowed to be any size ($\leq 255 bytes$). \ac{cr} and \ac{tp}s are assumed to be 4/5 and 14dBm respectively.
+The \ac{lora} configurations used are the abstracted \ac{dr}s from \ac{lorawan} \cite{3YP:LORAWAN_REGIONAL_PARAMS}; however, DR0 and DR2 are disregarded due to their lack of respective \ac{sf} performance. Although small packets ($< 20\enskip \text{bytes}$) have been shown to have slightly higher receive probability, they are not practical with transmission overhead, therefore packets are allowed to be any size ($\leq 255\enskip bytes$). \ac{cr} and \ac{tp}s are assumed to be 4/5 and 14dBm respectively.
 
 As opposed to \ac{lorawan}'s \ac{dc} manager (see Figure \ref{fig:lorawan_duty_cycles}), all protocols use a custom \ac{dc} manager proposed in Appendix \ref{sec:proposed_duty_cycle}. This is  more flexible because it considers airtime over the full enforcement interval ($d_i$), allowing multiple sequential transmissions without silence; this is a requirement for bulk transmissions or protocol handshakes.
 
 \section{Approaches}
 \subsection{ALOHA}
-Uses \ac{lorawan}'s principle of sending data periodically provided the \ac{dc} limit allows. No carrier-sensing is carried out, but transmissions will be delayed if the transmitter is receiving at the scheduled time. For purposes of testing, the minimum spacing between transmissions is that enforced by \ac{lorawan}. Therefore, in the case that any backoff occurs, less than the \ac{dc}'s maximum worth of data will be transmitted. \ac{mac} performance purely relies on each radio only using a small amount of airtime. As all radios must be on the same configuration the method can only use a single channel and \ac{dr} -- no mechanism is used for dynamically agreeing parameter changes. Consequently, a fixed \ac{dc} of up to 10\% is supported on band h1.6. Test packets use random payload sizes and all packets are treated as data, acknowledgement and retransmission overhead is not considered.
+Uses \ac{lorawan}'s principle of sending data periodically provided the \ac{dc} limit allows. No carrier-sensing is carried out, but transmissions will be delayed if the transmitter is receiving at the scheduled time. For purposes of testing, the minimum spacing between transmissions is that enforced by \ac{lorawan}. Therefore, in the case that any backoff occurs, less than the \ac{dc}'s maximum worth of data will be transmitted. \ac{mac} performance purely relies on each radio only using a small amount of airtime. As all radios must be on the same configuration the method can only use a single channel and \ac{dr} -- no mechanism is used for dynamically agreeing parameter changes. Consequently, a fixed \ac{dc} of up to 10\% is supported on band h1.6. Test packets use random payload sizes and all packets are treated as data.
 
 \subsection{CSMA}
-Uses the ALOHA approach but does carrier-sensing using \ac{lora}'s \ac{cad} process immediately before transmissions. On detection, random backoff will occur before the \ac{cad} process repeats; this is a simplified approach to that proposed in \cite{3YP:LORA_CSMA}. The \ac{ps}s are increased from 8 to 32 to increase likelihood of preamble detection with the drawback of increased airtime overhead. When all nodes are within range of one another the vulnerable collision period is very short; provided no failed synchronisations take place, collisions should only occur if two transmitter's \ac{cad}s overlap, however collisions resulting from the hidden node problem (Figure \ref{fig:hidden_node_problem}) are not avoided.
+Uses the ALOHA approach but does carrier-sensing using \ac{lora}'s \ac{cad} process immediately before transmissions. On detection, random backoff will occur before the \ac{cad} process repeats; this is a simplified approach to that proposed in \cite{3YP:LORA_CSMA}. The \ac{ps}s are increased from 8 to 32 to increase preamble detection likelihood with the drawback of increased airtime overhead. When all nodes are within range of one another the vulnerable collision period is very short; provided no failed synchronisations take place, collisions should only occur if two transmitter's \ac{cad}s overlap; collisions resulting from the hidden node problem (Figure \ref{fig:hidden_node_problem}) are not avoided.
 
 \begin{figure}[H]
     \centering
@@ -52,7 +52,7 @@ As opposed to agreeing the configuration with a flurry of transmissions at one p
 
 
 \section{Test Methodology}
-Protocol testing was executed on one of the simulator environment presets, \texttt{LargeDataBroadcastTest}. The preset provided automatic generation of an $[x \times y]$ radio grid where spacing ($S$) is the same $\pm 20\%$. It provided four obstruction options seen in Figure \ref{fig:large_broadcast_options}.
+Protocol testing was executed on one of the simulator environment presets, \texttt{LargeData} \texttt{BroadcastTest}. The preset provided automatic generation of an $[x \times y]$ radio grid where spacing ($S$) was the same $\pm 20\%$. It provided four obstruction options seen in Figure \ref{fig:large_broadcast_options}.
 
 \begin{figure}[H]
     \centering
@@ -117,7 +117,7 @@ Unsurprisingly, throughputs are clustered by \ac{dc}, where $T_{10\%} \gg  T_{1\
     \label{fig:sim_throughput_boxplots}
 \end{figure}
 
-With this established, direct comparisons cannot be made between \ac{llbp} and configurations with 10\% \ac{dc}s. However, it is immediately clear that the \textit{fair} \ac{llbp} implementations do not out perform the 1\% ALOHA and \ac{csma} configurations; as is demonstrated by $P_{E || F} \ll P_{A||C}$ and $T_{E || F} \leq T_{A||C}$. Even with the best (\textit{cheat}) \ac{llbp} case, G has significantly less DP than the simpler approaches. Figure \ref{fig:sim_failure_reasons} indicates that the receiver can often not see data packets for \ac{llbp} configurations, indicating that the receiver does not switch bands correctly. This is likely caused by \ac{dap} receive failures; the theory made more likely by the significant increase of DP ($p = 0.01$) for $\text{E}\rightarrow \text{F}$. This issue is likely due to less important heartbeat packets colliding with a \ac{dap}.
+With this established, direct comparisons cannot be made between \ac{llbp} and configurations with 10\% \ac{dc}s. However, it is immediately clear that the \textit{fair} \ac{llbp} implementations do not out perform the 1\% ALOHA and \ac{csma} configurations; as is demonstrated by $P_{E || F} \ll P_{A||C}$ and $T_{E || F} \leq T_{A||C}$. Even with the best (\textit{cheat}) \ac{llbp} case, G has significantly less DP than the simpler approaches. Figure \ref{fig:sim_failure_reasons} indicates that the receiver can often not see data packets for \ac{llbp} configurations, indicating that the receiver does not switch bands correctly. This is likely caused by \ac{dap} receive failures; the theory made more likely by the significant increase of DP ($p = 0.01$) for $\text{E}\rightarrow \text{F}$. This issue is likely due to less critical heartbeat packets colliding with \ac{dap}s.
 \newpage
  That being said, the far more significant problem can be seen by comparing E to G. G uses the same \ac{dap} count but has perfect data for \ac{dr} selection. The increase in performance indicates that transmitter decisions made by E/F are not informed by enough data, resulting in an overly aggressive \ac{dr}s being selected. These problems could be remedied by: increasing the heartbeat timeout, though this will slow down topology updates, or making heartbeats more frequent/descriptive, though this will increase \ac{dap} loss chance. To facilitate these changes the management-band could be switched to h1.6 (\ac{dr}=10\%), though this removes the possibility of having a separate high-rate channel for critical communications. 
 \vspace{2cm}
@@ -125,12 +125,12 @@ With this established, direct comparisons cannot be made between \ac{llbp} and c
     \centering
    	\includegraphics{Figures/sim_recv_boxplots}
     \caption[Box-plots of protocol data delivery percentage]{
-    	Box-plots of DP in each environment [[A, B], [C, D]]. Highlighted is the consistency of ALOHA and \ac{csma} between environments. \ac{llbp}'s failings to select the correct \ac{dr} are highlighted by it only having acceptable performance in Environment A when any \ac{dr} will do.
+    	Box-plots of DP in each environment [[A, B], [C, D]]. Highlighted is the consistency of ALOHA and \ac{csma} between environments. \ac{llbp}'s failings to select the correct \ac{dr} are highlighted by it only having acceptable performance in Environment A where any \ac{dr} will do.
 
     \label{fig:sim_recv_boxplots}
     }	
 \end{figure}
-\vspace{-10mm}
+
 \begin{figure}[H]
     \centering
    	\includegraphics{Figures/sim_failure_reasons}

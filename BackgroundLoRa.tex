@@ -1,16 +1,15 @@
 \section{\ac{lora}}
 \label{sec:lora}
 \subsection{Overview}
-\ac{lora} is a physical long-range, low-power, communication technology developed and patented by Semtech\footnote{Semtech, USA, https://www.semtech.com/}. It is designed to operate inside unlicensed Sub-1GHz \ac{ism} bands worldwide. Consequently, under the proviso that local regulatory standards are obeyed (see Section \ref{sec:ISMBandRegulation}), it can be used for wide area deployments without being tied to expensive licensed carriers. Fundamentally, even using its fastest configuration, it is a low-data rate modulation technique.
+\ac{lora} is a physical long-range, low-power, communication technology developed and patented by Semtech\footnote{Semtech, USA, https://www.semtech.com/}. It is designed to operate inside unlicensed Sub-1GHz \ac{ism} bands worldwide. Consequently, it can be used for wide area deployments without being tied to expensive licensed carriers  (see Section \ref{sec:ISMBandRegulation}). Fundamentally, even using its fastest configuration, it is a low-data rate modulation technique.
 
-Long-range communication in the \ac{ism} bands is challenging as heavy congestion can result in a high physical noise floor; that is the sum of all signals in the band from sources such as the atmosphere or radio devices, excluding the wanted signal. \ac{lora} functions using a unique spread spectrum modulation technique that can be received below the noise floor. The technique allows signal-to-noise degradation in a single channel to be compensated for by spreading across other channels; As the spreading amount can be changed, \ac{lora} modulation boasts a high and adaptive sensitivity. This adaptability allows \ac{lora} to make far more efficient use of its link budget compared to frequency shift keying (FSK) and other modulation types \cite{3YP:LORA_MOD_BASICS}. The link budget being the measure of all gains and losses incurred by a signal passing through the transmitter, the receiver and said propagation channel; Equation \ref{eq:link_budget} identifies the link-budget in its simplest form.
+Long-range communication in the \ac{ism} bands is challenging as heavy congestion can result in a high physical noise floor; that is the sum of all signals in the band from sources such as the atmosphere or radio devices, excluding the wanted signal. \ac{lora} functions using a unique spread spectrum modulation technique that allows signal-to-noise degradation in a single channel to be compensated for by spreading across other channels, meaning signals can be received below the noise floor. As the spreading amount can be changed, \ac{lora} modulation boasts a high and adaptive sensitivity. This adaptability allows \ac{lora} to make far more efficient use of its link budget compared to frequency shift keying (FSK) and other modulation types \cite{3YP:LORA_MOD_BASICS}. The link budget being the measure of all gains and losses incurred by a signal passing through the transmitter, the receiver and said propagation channel. A system is said to be link limited when channel losses result in a receive power (and therefore \ac{snr}) lower than can be demodulated by the receiver. Equation \ref{eq:link_budget} identifies the link-budget in its simplest form.
 \begin{equation}
 \label{eq:link_budget}
 RX\ Power\ (dB)\ = TX\ Power\ (dB)\ +\ Gains\ (dB)\ -\ Losses\ (dB)
 \end{equation}
-A system is said to be link limited when channel losses result in a receive power (and therefore \ac{snr}) lower than can be demodulated by the receiver. 
 
-Unlike spread spectrum techniques that use a fixed chip sequence, \ac{lora} modulation uses a chirp signal that varies in frequency continuously. This is referred to as chirp spread spectrum (\ac{css}) modulation and allows the complexity of the receiver design to be greatly reduced, resulting in a reduced and accessible hardware cost \cite{3YP:LORA_MOD_BASICS}. 
+%Unlike spread spectrum techniques that use a fixed chip sequence, \ac{lora} modulation uses a chirp signal that varies in frequency continuously. This is referred to as chirp spread spectrum (\ac{css}) modulation and allows the complexity of the receiver design to be greatly reduced, resulting in a reduced and accessible hardware cost \cite{3YP:LORA_MOD_BASICS}. 
 
 \subsection{Parameters}
 \ac{lora} hardware has many parameters that can be configured to extend range or increase reliability at the expense of airtime, data-rate or energy consumption. These are independent from any external hardware and include:
@@ -23,7 +22,10 @@ Unlike spread spectrum techniques that use a fixed chip sequence, \ac{lora} modu
     \item \textbf{Transmission Power (\ac{tp})}: The radio output power. Equation \ref{eq:link_budget} highlights how an increased \ac{tp} directly increases link budget with the obvious drawback of higher power usage. 
 \end{itemize}
 
+\label{sec:parameter_selection}
+Selection of these parameters is often manual, however mechanisms such as \ac{lorawan}'s adaptive data-rate (\ac{adr}) \cite{3YP:LORAWAN}, or ``probing algorithms'', as proposed by \cite{3YP:CHOOSING_LORA_PARAMETERS}, can be used to choose these parameters such that transmission energy is reduced whilst maintaining an adequate throughput and link budget. \ac{lorawan} abstracts \ac{sf}s and \ac{bw}s into a set of orthogonal data-rates (\ac{dr}s) to simplify selection, where lower data-rates have higher range \cite{3YP:LORAWAN_REGIONAL_PARAMS}. It has been suggested that \ac{adr} has low-scalability due to packet count requirements \cite{3YP:LORAWAN_ADR} and is slow to converge \cite{3YP:LORAWAN_ADR_AGILITY}. Likewise \cite{3YP:CHOOSING_LORA_PARAMETERS} requires a large number of initial transmissions, making both only suitable for static nodes in a gateway controlled network.
 
+\vspace{5mm}
 \begin{table}[H]
 \centering\small
 \caption[Effect of \ac{cr}s on \ac{lora} transmissions]{Effect of \ac{cr}s on \ac{lora} transmissions. Recovery performance is defined as the best case percentage of bits that can be lost for a successful receive. \\ Compiled from data in \cite{3YP:LORA_PERFORMANCE}.}
@@ -39,6 +41,7 @@ Unlike spread spectrum techniques that use a fixed chip sequence, \ac{lora} modu
     \addlinespace\bottomrule
 \end{tabular}
 \end{table}
+\vspace{5mm}
 \begin{table}[H]
 \centering\small
 \caption[Effect of \ac{sf} on \ac{lora} transmissions]{Effect of \ac{sf} on \ac{lora} transmissions (\ac{bw}=125KHz). \\Compiled from data in \cite{3YP:LORA_MOD_BASICS} and \cite{3YP:LORA_PERFORMANCE}.}
@@ -56,8 +59,6 @@ Unlike spread spectrum techniques that use a fixed chip sequence, \ac{lora} modu
 \end{tabular}
 \label{tab:sf_effect}
 \end{table}
-\label{sec:parameter_selection}
-Selection of these parameters is often manual, however mechanisms such as \ac{lorawan}'s adaptive data-rate (\ac{adr}) \cite{3YP:LORAWAN}, or ``probing algorithms'', as proposed by \cite{3YP:CHOOSING_LORA_PARAMETERS}, can be used to choose these parameters such that transmission energy is reduced whilst maintaining an adequate throughput and link budget. \ac{lorawan} abstracts \ac{sf}s and \ac{bw}s into a set of orthogonal data-rates (\ac{dr}s) to simplify selection, where lower data-rates have higher range \cite{3YP:LORAWAN_REGIONAL_PARAMS}. It has been suggested that \ac{adr} has low-scalability due to packet count requirements \cite{3YP:LORAWAN_ADR} and is slow to converge \cite{3YP:LORAWAN_ADR_AGILITY}. Likewise \cite{3YP:CHOOSING_LORA_PARAMETERS} requires a large number of initial transmissions, making both only suitable for static nodes in a gateway controlled network.
 
 \subsection{Airtime}\label{sec:airtime}
 To understand a configuration's performance, it is critical to know its airtime; this defines bitrate and affects channel contention methods. The total airtime of a transmission (Equation \ref{eq:airtime}) is dependent on the number of symbols being transmitted (Equation \ref{eq:symbol_count}) and the time each symbol takes to send. Preamble and payload are calculated individually as it can be useful to consider them as separate components for purposes such as \ac{cad}. Equations are adapted from \cite{3YP:LORA_SX12} to suit the notation and formats used by this paper.
@@ -82,7 +83,7 @@ The unmentioned factors in Equation \ref{eq:symbol_count} are: the number of byt
 \end{subequations}
 
 Equation \ref{eq:airtime} highlights that each \ac{sf} increment will cause $T_a$ to double for the same  number of symbols. Likewise, doubling \ac{bw} will half $T_a$. Figure \ref{lora_transmission_structure} shows the structure of a \ac{lora} transmission and therefore where each airtime component comes from. 
-
+\vspace{5mm}
 \begin{figure}[H]
     \centering
    	\includegraphics{Figures/lora_transmission}
@@ -95,21 +96,21 @@ Equation \ref{eq:airtime} highlights that each \ac{sf} increment will cause $T_a
 
 \subsection{Receive Behaviour}
 \label{sec:lora_considerations}
-\ac{lora} radios, like all current consumer radios, are half-duplex, meaning they are unable to receive for the duration of transmissions. Additionally, end device radios will usually be transceivers, which can only demodulate one incoming signal at a time \cite{3YP:LORA_SX12}. In the presence of multiple signals, some transmissions may be missed, or collisions may occur, causing all transmissions to be missed. Collision scenarios specific to \ac{lora} are identified in Table \ref{tab:collisions}. 
+\ac{lora} radios, like all consumer radios, are half-duplex, meaning they are unable to receive for the duration of transmissions. Additionally, end device radios will usually be transceivers, which can only demodulate one incoming signal at a time \cite{3YP:LORA_SX12}. In the presence of multiple signals, some transmissions may be missed, or collisions may occur, causing all transmissions to be missed. Collision scenarios specific to \ac{lora} are identified in Table \ref{tab:collisions}. 
 
 \begin{table}[H]
 \centering\small
 \caption[\ac{lora} collision scenarios]{Collation of \ac{lora} collision scenarios as defined by \cite{3YP:LORA_FOR_IOT} and \cite{3YP:LORA_COLLISIONS}. \cite{3YP:LORA_COLLISIONS}'s definition of the important preamble (IP) is used: the four fixed preamble symbols and proceeding two symbols of the programmed preamble. Situations use two transmission sources (A and B) and one receive source (C).}
 \begin{tabular}{c|cc|c}
     \toprule
-    \textbf{ID} & \textbf{Time} & \textbf{Power} & \textbf{$C$ Result}\\
+    \textbf{ID} & \textbf{Time} & \textbf{Power} & \textbf{C Result}\\
     \midrule\addlinespace
     A & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \geq B_{\text{\ac{rps}}}$ & Receives A \\
     B & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} < B_{\text{\ac{rps}}}$ &  Receives A \\
     C & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \ll B_{\text{\ac{rps}}}$ & CRC Fail A \\
     D & $B_{start}$ \textit{inside} $A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \leq B_{\text{\ac{rps}}}$ & Collision \\
     E & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \approx B_{\text{\ac{rps}}}$ & Collision \\
-    F & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \gg B_{\text{\ac{rps}}}$ & Receives $A$ \\
+    F & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \gg B_{\text{\ac{rps}}}$ & Receives A \\
     \addlinespace\bottomrule
 \end{tabular}
 \label{tab:collisions}
@@ -117,7 +118,7 @@ Equation \ref{eq:airtime} highlights that each \ac{sf} increment will cause $T_a
 
  It should be noted that a different technology exists in gateways (a \ac{lora} concentrator block), allowing demodulation of up to eight signals concurrently, provided they use unique spreading factors \cite{3YP:LORA_SX1301}. Although gateways are clearly more powerful than transceivers, their cost and power usage make them hard to deploy on scale. However, Pycom's\footnote{Pycom, UK,  https://pycom.io/} newly released Pygate gateway is a fraction of the cost of existing implementations and may be feasible for ad-hoc scenarios.
 
- Most \ac{lora} applications consist of many sensor nodes infrequently sending data on different spreading factors to a single gateway with very little downlink present; this means collisions and missed receives are rare. Unfortunately, in ad-hoc networks, these events are very likely and can be detrimental to a network's throughput; this is further explored in Section \ref{sec:mac_protocol_background}.
+ Most \ac{lora} applications consist of many sensor nodes infrequently sending data on different spreading factors to a single gateway with very little downlink present; this means collisions and missed receives are rare. Unfortunately, in ad-hoc networks, these events are very likely; this is explored in Section \ref{sec:mac_protocol_background}.
 \newpage
 \subsection{Channel Activity Detection (\ac{cad})}\label{sec:cad}
 Carrier-sensing is a helpful mechanism for radios to check whether a channel is busy or idle. Usually, this is achieved by checking the power present in the channel using the received signal strength indicator (\ac{rssi}). This is a very unreliable method for \ac{lora} because the \ac{rssi} includes channel noise, and \ac{lora} signals can operate below the noise floor. For this reason, \ac{lora} radios offer a specialised \ac{cad} method, which searches the channel for a single preamble symbol. \ac{cad} is at least 97\% reliable in the presence of preamble with false positives occuring just 0.1\% of the time \cite{3YP:LORA_FOR_IOT}. It has been shown that \ac{cad} can in fact detect non-preamble symbols when there is high signal strength, although this ability quickly becomes unreliable in a real world scenario \cite{3YP:LORA_CSMA}.
