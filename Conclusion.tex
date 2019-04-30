@@ -1,5 +1,88 @@
 \chapter{Conclusion}
+This paper has presented an assessment of \ac{lora} for sparse swarm scenarios covering: physical radio performance, regulation concessions, and how that maps to prospective \ac{mac} protocol performance. Conclusions are that \ac{lora}'s physical technology is suitable with recorded transmit ranges, using typical \ac{lora} radios, far exceeding that achievable by Wi-Fi or other comparable technologies -- 1600m in free-space or 500m in high-propagation forest can be expected even with scenario compromises. 
 
+That being said, given its naturally low-data-rate, the technology is severely handicapped by Sub-1GHz band limitations in Europe. Future work could study the more freely regulated 2.4GHz \ac{lora} implementation, though this is unlikely to be applicable to forest scenarios. The usable unicast throughput of ${\sim}15\text{KB}$ per hour (${\sim}2.5\text{KB}$ if multiple channels are required),  whilst conforming to regulation using a typical configuration is significantly worse than can be expected from usual swarm transfer mediums. LoRa's multiple data-rate configurations could alleviate this, either through manual configuration on a deployment basis, or through a \ac{mac} protocol. The attempts in this paper to create said protocol were ultimately unsuccessful, with basic ALOHA and \ac{csma} approaches outperforming the proposed \ac{llbp}. A variation on \ac{llbp} with slotting or minor tweaks may be able to deliver better performance or a contention-free Mobile-LMAC \cite{3YP:WSN_BOOK} like approach may be required. This is a topic for future research.
+
+Though overall the created simulator provided a reasonable assessment of protocols and proposed some novel modelling techniques to closely emulate real-world context, one drawback of the testing approach was that decisions were made mostly agnostic to scenario data. Given \ac{mac} layers can be very scenario specific, implementing realistic swarm data models and distribution algorithms like SOUL \cite{3YP:SOUL} would give fairer between-protocol assessment. 
+
+
+The paper has p 
+ Protocol testing was hampered by 
+
+
+
+whilst  
+even with the benefit of assuming multiple receivers
+
+
+
+However, the concessions that must be taken with the technology may be problamatic.
+
+
+This is regardless of the propagation environment, with predictable receive  up to 500m, compromised antenna placement at ground-level t
+
+
+regardless of propagation environment 
+
+ required by swarm scenarios compromise \ac{lora}'s performance with ranges of 1600m down from 
+
+These conclusions are made agnostic of an understanding on what the  
+
+Although 
+
+
+
+
+
+ suitable for single-hops in a system with sparsely separated radios; ranges of 500m regardless of the propagation environment with 1600m 
+
+
+By considering the system as a whole the substantial challenge facing \ac{lora} ad-hoc networks is presented. 
+
+
+This can be purely extracted from
+ two two 
+
+
+
+Papers that purely study one without the other 
+
+
+Typically papers disregard at least one of the following: collisions, limits 
+
+Therefore by considering all factors a more accurate understanding of the challenges faced.
+
+
+ establishing a close tie between 
+
+
+A unique broadcast scenario 
+
+
+The testing metho
+
+
+The simulator's execution time is slow compared to that 
+
+Concerning \ac{llbp}, the custom \ac{mac} protocol defined in the  
+It is highly likely that with substantial optimisations that LLBP could be made good.
+The basis of this paper has laid out many more bits of work to finish.
+
+The knowledge gained from considering the two as a couple is novel.
+The resulting products of this project have been a 
+
+
+
+
+
+The infrequency of possible transmissions stop this being possible.
+
+
+
+
+ high-level protocol testing. Through
+
+ presented a number 
 
 Provided a flexible research platform both physically and simulator
 Demonstrated how lora features can be taken advantage of
@@ -10,17 +93,55 @@ Incorporation with a routing protocol
 Real world testing
 
 Incorporation with more realistic test data, have testing methodologies that carry out a combination of local broadcasts, unicasts and 
+How much is the actual data
+
+
 % Test in hardware
 % Incorporate into full network stack
 
 When broadcasting a packet by packet basis is better, when agreeing parameters a more structured unicast system may be required.
 
-It is highly likely that with substantial optimisations that LLBP could be made good.
-Only contention based 
+
 Initial attempts attempted to provide slots to listeners though this didn't work
 Might be that it's only efficent to unicast data with different parameters (so that it's reliable)
 
-The infrequency of possible transmissions stop this being possible.
-Mobile-LMAC is a time division approach that can adapt transmission slots dynamically, however there is no mechanism to adjust 
 
-%A general acoustic fault detection system has been presented, together with an analysis of its individual sub-components. After a review of the techniques previ- ously used in different narrower fields of activity, a general method that aims to incorporate their main advantages was investigated. Having in mind the idea of an embedded system that can easily be trained and deployed in a broad range of en- vironments, the framework that captures the whole process, from audio recording to a final fault warning, was developed and evaluated.%The fault detection process starts with the data gathering. A set of six different input devices was tested and although a major difference between the captured frequency ranges does not exist, improved accuracy was observed when using a 27mm, no membrane speaker attached to the exterior case of the monitored sys- tem. Following that, the audio recordings are divided into one second long seg- ments. These can be further windowed, depending on the requirements of the used feature extractor. Classification layer 1 is composed of three Hidden Markov Models and a fourth Support Vector Machine. Each of this models uses a distinct feature extractor which gives it a set of advantages and drawbacks. The goal of the project was to analyse and compare the characteristics of each model and ex- tractor and find the combination that improves the system’s overall performance and generalisation capabilities. This process resulted in a choice of three HMMs using MFCC, Spectral Rolloff and Spectral Centroid and a SVM working with a combination of Zero-Crossing Rate and Short-time Energy. On top of this, Classi- fication layer 2 consists of a HMM that observes the underlying level’s performance relative to the properties of the input, and takes a final and more reliable decision. The output label is used together with a state machine of the monitored system% to track the running system status and raise fault warnings when a transition be- tween consecutive events is missed, or the duration of an action is abnormal. This entire process is carried out in real time, a fault warning being triggered with a maximum delay of 10 seconds.%After the design challenges were explored, an evaluation of the framework was performed. The results show that the proposed two layered classification model has a better performance than any of the reviewed individual sub-components on the used datasets, while an increased generalisation capability was observed.%In conclusion, as the performance and capabilities of digital systems is continually increased, new opportunities that are worth exploring emerge. It is expected that in the following years an exponential number of ”intelligent” systems will make their presence felt around us. With an increased machine complexity and a reduced number of humans working around them, new methods of fault detection and maintenance have to be developed to ensure a smooth, reliable and durable work flow.
+
+%The amount of unwanted data received is an indication of potential collisions in a denser network.
+%
+%There are many avenues that to improve performance of \ac{llbp} 
+
+%
+
+%\% of intended recipients received for each message
+%Reasoning for failed receive: Insufficient SNR (out of range), CRC fail (bad luck), Sync Collision/ CRC from interference
+%
+%Missed == This implies the receiver was busy, busy receiving at the same time or not receivable 
+%No Preamble on a Wanted == This implies the SF is not adequate
+%
+%The protocol 
+%Total helpful throughput number of bytes,  number of packets
+
+%One approach may be to slot transmissions so there is always a good time to send announcements. 
+%A more complex method could require a handshake between receivers and broadcaster using slotted schedules, but this is high overhead and massively increases nearby death
+%If it costs more to send out the 
+
+
+%First check band that you're going to send in
+%Use knowledge of who is around from regular broadcasts on 1 band
+%Send out broadcast with slots for people to reply with CTR on other band (clear to receive)
+%Send out ATT (about to transmit)
+%Switch to lower sf and other band
+
+%Unable to exploit use of spreading factors as agreement must be made to change settings globally
+
+
+%From PHY testing it is known that 
+%Also know that if devics are moving, LOS changes in forests may suddenly cause packet failure, better to shove all data asap
+ 
+
+
+
+%The approach is high-risk, in the event a \ac{dap} is missed, or prior knowledge is incorrect, intended recipients may not receive any data. The number of \ac{dap}s sent can be increased to reduce the probability of the first case. However, increasing heartbeat frequency for the second case is problematic as it increases the likelihood in \ac{dap}s getting missed. Heartbeats and \ac{dap}s are both considered as overhead. 
+%Like with the other protocols, acknowledgements and retransmissions are not attempted.
+ 

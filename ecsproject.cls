@@ -32,6 +32,7 @@
 \LoadClass{\baseclass}
 \newcommand\bhrule{\typeout{------------------------------------------------------------------------------}}
 \newcommand\btypeout[1]{\bhrule\typeout{\space #1}\bhrule}
+\usepackage{graphicx}
 \usepackage{setspace}
 \onehalfspacing
 \setlength{\parindent}{0pt}
@@ -95,11 +96,11 @@
 \setcounter{bottomnumber}{9}
 \setcounter{totalnumber}{20}
 \setcounter{dbltopnumber}{9}
-\usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{booktabs}
 \usepackage{rotating}
 \usepackage{listings}
+
 %\usepackage{lstpatch}
 \lstset{captionpos=b,
         frame=tb,
@@ -144,11 +145,11 @@
                 {UNIVERSITY OF SOUTHAMPTON}}
                 {UNIVERSITY OF SOUTHAMPTON}}
 \department  {\texorpdfstring{\href{https://www.ecs.soton.ac.uk}
-                {School of Electronics and Computer Science}}
-                {School of Electronics and Computer Science}}
+                {Electronics and Computer Science}}
+                {Electronics and Computer Science}}
 \DEPARTMENT  {\texorpdfstring{\href{https://www.ecs.soton.ac.uk}
-                {SCHOOL OF ELECTRONICS AND COMPUTER SCIENCE}}
-                {SCHOOL OF ELECTRONICS AND COMPUTER SCIENCE}}
+                {ELECTRONICS AND COMPUTER SCIENCE}}
+                {ELECTRONICS AND COMPUTER SCIENCE}}
 %\group       {\texorpdfstring{\href{http://www.isis.ecs.soton.ac.uk}
 %                {Image, Speech and Intelligent Systems Group}}
 %                {Image, Speech and Intelligent Systems Group}}
@@ -156,11 +157,11 @@
 %                {IMAGE, SPEECH AND INTELLIGENT SYSTEMS GROUP}}
 %                {IMAGE, SPEECH AND INTELLIGENT SYSTEMS GROUP}}
 \faculty     {\texorpdfstring{\href{https://www.feps.soton.ac.uk}
-                {Faculty of Engineering and Physical Sciences}}
-                {Faculty of Engineering and Physical Sciences}}
+                {Faculty of Physical Sciences and Engineering}}
+                {Faculty of Physical Sciences and Engineering}}
 \FACULTY     {\texorpdfstring{\href{https://www.feps.soton.ac.uk}
-                {FACULTY OF ENGINEERING AND PHYSICAL SCIENCE}}
-                {FACULTY OF ENGINEERING AND PHYSICAL SCIENCE}}
+                {FACULTY OF PHYSICAL SCIENCE AND ENGINEERING}}
+                {FACULTY OF PHYSICAL SCIENCE AND ENGINEERING}}
 \addresses   {}
 \subject     {}
 \keywords    {}
@@ -180,24 +181,26 @@
     \vskip 60\p@
     \begin{center}
       \setlength{\parskip}{0pt}
-      {\large\textbf{\UNIVNAME}\par}
       {\large \facname \par}
       {\large \deptname \par}
+      {\large\textbf{\UNIVNAME}\par}
       \vfill
-      {\large A project report submitted for the}
-      {\large award of \par \degreename \par}
+      {\normalsize \authornames \par}   
+      {\normalsize \@date \par}
       \vfill
-      {\normalsize Supervisor: \supname \par}
+      \hspace{6mm}\parbox[t][10mm][s]{89mm}{
+      \centering
+      	{\large \bf \@title \par}
+      }
+      \vfill
+      \vspace{20mm}
+      {\normalsize Project Supervisor: \supname \par}
       {\normalsize Second Examiner: \examname \par}
       \vfill
-      \hspace{6mm}\parbox[t][51mm][s]{89mm}{
-        \center
-        \vfill
-        {\large \bf \@title \par}
-        \vfill
-        {\normalsize by \authornames \par}
-        \vfill
-        {\normalsize \@date \par}
+      \hspace{6mm}\parbox[t][20mm][s]{140mm}{
+      \centering
+      {\large A project report submitted for the}
+      {\large award of \par \degreename \par}
         \vfill
       }
       \parbox[t][95mm][s]{89mm}{}
@@ -232,10 +235,10 @@
     \bigskip
     {\normalsize \FACNAME \par}
     {\normalsize \DEPTNAME \par}
+    %\bigskip
+    %{\normalsize {A project report submitted for the award of \degreename}\par}
     \bigskip
-    {\normalsize \underline{A project report submitted for the award of \degreename}\par}
-    \bigskip
-    {\normalsize\bf \@title \par}
+    {\normalsize \textbf{LoRa Communications for Sparse Robot Swarms} \par}
     \medskip
     {\normalsize by \authornames \par}
     \bigskip
@@ -314,9 +317,24 @@
     \cleardoublepage
 }
 
+\newcommand\listacroynmname{List of Acronyms}
+\newcommand\listofacronyms{
+\btypeout{\listacroynmname}
+\addtotoc{\listacroynmname}
+\chapter*{\listacroynmname
+\@mkboth{\MakeUppercase\listacroynmname}{\MakeUppercase\listacroynmname}}
+\vspace{-20mm}
+\printacronyms[include-classes=abbrev, name=]
+\printacronyms[include-classes=radio_params, name=]
+\cleardoublepage
+}
+ 
+
+
+
 \newcommand\acknowledgements[1]{
 \btypeout{Acknowledgements}
-\addtotoc{Acknowledgements}
+%\addtotoc{Acknowledgements}
 \thispagestyle{plain}
 \null\vfil
 \vskip 60\p@

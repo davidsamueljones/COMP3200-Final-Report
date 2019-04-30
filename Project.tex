@@ -51,25 +51,99 @@
 \maketitle
 
 \begin{abstract}
+Swarms are mobile multi-robot systems that communicate in a decentralised manner to achieve their goals. For complex robots these interactions are typically handled using high-data-rate technologies such as Wi-Fi or LTE, however, when operating in areas with no cellular infrastructure at ranges beyond the capabilities of Wi-Fi, neither option is feasible.  This paper identifies the long-range, low-data-rate technology of \ac{lora} to serve this scenario. \ac{lora} is typically deployed in low-power sensor networks; leading to radio testing literature using highly elevated antenna. Swarm deployments must rely on ground level transmissions. Therefore this project initially covers real-world radio testing in free-space and forests to assess how deployment scenarios affect \ac{lora}'s physical radio performance. Overall range results indicate that \ac{lora} ground level transmissions
+
+
+ 500m in high-propagation forests and 1600m in free-space.
+
+
+%is suitable for single-hops in a system with sparsely separated radios; ranges of 500m regardless of the propagation environment with 1600m 
+%
+%
+%
+%However, even with the 1600m range offered in free space, single-hop point-to-point coverage to all radios is unlikely, leading to the expected dynamic mesh topology.
+%
+%tests gateways with highly elevated antenna. 
+%
+%
+%The radio environment in swarm deployments is very different from that commonly tested for \ac{lora}. 
+%
+%
+%  existing radio testing irrelevant.
+%
+%  
+%
+%
+%Due to the novel operating conditions expected, of  
+%
+%
+%Given that this is a novel usage 
+%
+%
+% 
+%498 test cases were executed split across multiple locations.
+%
+%
+%The paper identifies the difficulties with exploting the paramaters due to the requirement of making
+%
+%
+%Lapplications.
+%
+% From this, demodulation models are extracted and combined with \ac{lora} collision models from literature to create a simulator for testing \ac{lora} ad-hoc scenarios. This simulator is then used to analyse the effectiveness of three \ac{mac} protocols with the aim of prioritising data distribution to physically local neighbours. Two methods utilise common approaches (ALOHA and \ac{csma}), and the third attempts to exploit hardware parameters and regional \ac{rf} regulations; this is defined as the LoRa Local Broadcast Protocol (\ac{llbp}).
+
+
+
+
+%takes the wide area network focussed technology of \ac{lora} and assesses its suitability to fill this gap.
+%
+%The ranges and reliability of the medium are suitable achieved 
+%
+%
+%Often these swarms are deployed across large areas, 
+%
+%
+%When this swarm is spread over a large area it is fo
+%
+%
+%The data shared can range from be environmental or swarm control.
+%
+%
+%Highlights the difficulties of making use of \ac{lora}s stand-out feature of spreading factors. 
+%
+% from any fixed infrastructure is decentralised the system 
+%This 
+%This paper studies the application of \ac{lora}, an emerging long range, low power, radio frequency (\ac{rf}) technology, for the decentralised use case of sparse robot swarms.
+%
+%Attempts at defining a protocol which made use of one of \ac{lora}'s stand-out features that make it so good for wide area networks.
+%
+%This paper focusses on assessing \ac{lora} for this application.
+%
+% Conversely, using a single centralised node, deployments are limited by that node's placement and its maximum communication range. This paper studies the application of \ac{lora}, an emerging long range, low power, radio frequency (\ac{rf}) technology, for the decentralised use case of sparse robot swarms. 
+%
+% Decentralisation of wireless control and data sharing systems allows flexible deployment structures over large areas. The studies of this  
  
+%  Interconnected devices and mobile multi- robot systems are increasingly present in many real- life scenarios. To be effective, these systems need to collect large amounts of data from their environment, and often these data need to be aggregated, shared, and distributed. Many multi-robot systems are de- signed to share state information and commands, but their communication infrastructure is often too lim- ited for significant data transfers. This paper introduces SOUL (Swarm-Oriented Upload of Labeled data), a mechanism that allows members of a fully distributed system to share data with their peers. We leverage a BitTorrent-like strategy to share data in smaller chunks, or datagrams, with policies that minimize re- construction time. We performed extensive simulations to study the properties of the system and to demon- strate its scalability. We report experiments conducted with real robots following two realistic deployment sce- narios: searching for objects in a scene, and replacing the full identity of a defective robot.
+ 
+ 
+% This report presents the results of an investigation of the viability of capacitive coupling as a feasible communication scheme implementable in swarms and self- assembly systems. 
+
+%Swarm robotics and self-assembly systems rely on the ability of individual members to communicate to be able to achieve swarm goals and tasks. Swarms and self-assembly systems present implementation and research challenges due to their high budget requirements and are implemented using microcontrollers for their processing needs. The achievement of a low-cost and easy to imple- ment communication scheme between microcontrollers would lead to lower budget swarm robotics and self-assembly systems. A basic data transmission scheme is experimented upon using a capacitive channel. Bit patterns are passed from one microcontroller to another over a capacitive channel for a fixed time duration and under di↵erent channel conditions. The receiving microcontroller is able to detect the modulated signal and accuracy is seen to vary with channel parameters like area, dielectric and data rate. The receiving microcontroller relies only on avail- able hardware within the microcontroller for signal detection. The results prove a capacitive coupling scheme could enable data transmission between two or even more microcontrollers and presents areas for further investigation such as the de- sign of a robust and reliable communication scheme that builds upon the stated results.
+% 
+% 
 
 \end{abstract}
+\input{StatementOfOrginality}
+\newpage{}
+\acknowledgements{
+This work would not have been possible without Klaus Peter-Zauner's weekly guidance and continuous support. I am also thankful to Kirk Martinez for his invaluable suggestions on simulation methods, which kept this project progressing. Most of all I would like to thank any family and friends who kept me company through the many hours of data collection, no matter the weather!
+}
 
 \tableofcontents
 \listoffigures
 \listoftables
-%\lstlistoflistings
+\listofacronyms
+%\input{Symbols}
 
-
-\chapter{Acronyms}
-\vspace{-20mm}
-\printacronyms[include-classes=abbrev, name=]
-\printacronyms[include-classes=radio_params, name=]
-
-\input{Symbols}
-\acknowledgements{
-This work would not have been possible without Klaus Peter-Zauner's weekly guidance and continuous support. I am also thankful to Kirk Martinez for his invaluable suggestions on simulation methods, which kept this project progressing. Most of all I would like to thank any family and friends who kept me company through the many hours of data collection, no matter the weather!
-}
 \mainmatter
 
 %% ----------------------------------------------------------------

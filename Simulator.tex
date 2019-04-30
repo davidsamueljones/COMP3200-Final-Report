@@ -1,7 +1,5 @@
 \chapter{\ac{lora} Ad-Hoc Simulator}
-With an understanding of \ac{lora}'s performance - the next stage is to understand how \ac{lora} performs in an ad-hoc network. This section proposes a specialised Ad-Hoc \ac{lora} simulator, using models directly from \ac{phy} testing, as well as literature. It supports both scripted access for repeatable statistical testing and provides a GUI overlay for visually identifying system behaviour and performance. 
-
-\textit{Full source code is available in the project design archive.}
+This section proposes a specialised Ad-Hoc \ac{lora} simulator, using models directly from \ac{phy} testing, as well as literature, to allow assessment of protocol performance. It supports both scripted access for statistical testing and a GUI overlay for visually identifying system behaviour and performance. 
 
 \section{Model}
 \subsection{Overview}
@@ -18,22 +16,22 @@ Every time-slice, a radio, provided it is not transmitting, will fill its receiv
 \begin{table}[H]
 \centering\small
 \caption[Simulator results for collision scenarios]{Results for collision scenarios defined in Table \ref{tab:collisions}, when modelled in the simulator. All scenarios are modelled correctly for all \ac{sf}s.}
-\begin{tabular}{c|cc|c|c}
+\begin{tabular}{c|c|c}
     \toprule
-    \textbf{ID} & \textbf{Time} & \textbf{Power} & \textbf{Status} & \textbf{Metadata Status}\\
+    \textbf{ID} & \textbf{Status} & \textbf{Metadata Status}\\
     \midrule\addlinespace
-    A & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \geq B_{\text{\ac{rps}}}$ & Receive A &  \cellcolor{green!25}\texttt{SUCCESS} \\
-    B & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} < B_{\text{\ac{rps}}}$ & Receive A &  \cellcolor{green!25}\texttt{SUCCESS} \\
-    C & $B_{start} > A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \ll B_{\text{\ac{rps}}}$& CRC Fail A &  \cellcolor{green!25}\texttt{PAYLOAD\_COLLISION}  \\
-    D & $B_{start}$ \textit{inside} $A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \leq B_{\text{\ac{rps}}}$ & Collision &  \cellcolor{green!25}\texttt{PREAMBLE\_COLLISION} \\
-    E & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \approx B_{\text{\ac{rps}}}$ & Collision &  \cellcolor{green!25}\texttt{PAYLOAD\_COLLISION}  \\
-    F & $B_{\text{IP}} \approx A_{\text{IP}}$ & $A_{\text{\ac{rps}}} \gg B_{\text{\ac{rps}}}$ & Receive A &  \cellcolor{green!25}\texttt{SUCCESS} \\
+    A & Receive A &  \cellcolor{green!25}\texttt{SUCCESS} \\
+    B & Receive A &  \cellcolor{green!25}\texttt{SUCCESS} \\
+    C & CRC Fail A &  \cellcolor{green!25}\texttt{PAYLOAD\_COLLISION}  \\
+    D & Collision &  \cellcolor{green!25}\texttt{PREAMBLE\_COLLISION} \\
+    E & Collision &  \cellcolor{green!25}\texttt{PAYLOAD\_COLLISION}  \\
+    F & Receive A &  \cellcolor{green!25}\texttt{SUCCESS} \\
     \addlinespace\bottomrule
 \end{tabular}
 \label{tab:sim_collisions}
 \end{table}
 
-Synchronisation is achieved when the important preamble of a signal (last 6.25 symbols) is in the receive buffer and demodulated successfully. Attempted demodulation occurs at the end of each time-slice and must pass at three stages to successfully receive a signal. If any stage fails the latter stages will not occur, but the signal will be unreceivable and may still interfere. The stages are:
+Synchronisation is achieved when the important preamble of a signal is in the receive buffer and demodulated successfully. Attempted demodulation occurs at the end of each time-slice and must pass at three stages to successfully receive a signal. If any stage fails the latter stages will not occur, but the signal will be unreceivable and may still interfere. The stages are:
 \vspace{-2mm}
 \begin{enumerate}[label=\textbf{S\arabic*}]
   	\item {When a transmission's first important preamble symbol is seen.	 \\Start of synchronisation.} \label{demod_s1}
@@ -73,7 +71,7 @@ The mentioned demodulation curve varies depending on whether the theoretical mod
 \end{figure}
 
 \subsubsection{CAD}
-\ac{lora}'s \ac{cad} process requires the ability to poll the receive buffer for a preamble symbol. When the process is invoked, the initial contents of the receive buffer are emptied as previous receive data cannot be used. A symbol's length of receive buffer is then captured (Equation \ref{eq:symbol_time}) and then the \ac{cad} search result is returned after the average processing time ($0.85\cdot S_T$) \cite{3YP:LORA_SX12}. Activity is detected if at least 80\% of the receives in the buffer are preamble symbols and a standard demodulation curve check passes. When the process is complete the full receive buffer is dumped as it cannot be used for receives.
+\ac{lora}'s \ac{cad} process requires the ability to poll the receive buffer for a preamble symbol. When the process is invoked, the initial contents of the receive buffer are emptied as previous receive data cannot be used. A symbol's length of receive buffer is then captured (Equation \ref{eq:symbol_time}) and then the \ac{cad} search result is returned after the average processing time ($0.85\cdot S_T$) \cite{3YP:LORA_SX12}. Activity is detected if at least 80\% of the receives in the buffer are preamble and a standard demodulation curve check passes. When the process is complete the full receive buffer is dumped.
 
 \subsection{\ac{rps} ($R_P$) \& \ac{snr} Model}
 The actual receivable signal power of a transmission is derived from the link budget equation, Equation \ref{eq:rp} explicitly repeats this for the factors modelled.
@@ -117,23 +115,23 @@ Objects are entities in the environment, which will possess their own propagatio
     
     As the method has large swings in path loss depending on whether obstacles are close to the receiver or transmitter, $\text{max}(P_{loss}^{TX\rightarrow RX}, P_{loss}^{RX\rightarrow TX})$ is taken; this means path loss will be the same regardless of the transmission direction -- interference differences may still mean that \ac{snr} varies. The model scales to any number of objects in the path. Note that fast-fading is abstracted into the demodulation curve of the receiver and is not modelled separately.  	
 
-The channel power as seen by a receiver (\ac{rssi}) at a location, is modelled as the sum of: all `interfering' signal powers, the thermal noise floor ($T_N$), and the receiver noise figure ($N_f$). When attempting to receive a signal, its observed $R_P$ can removed from the \ac{rssi} calculation to provide the channel noise ($N$). The \ac{snr} can then be calculated as $R_P - N$. Interfering sources, narrowband or otherwise, are considered as those where the bandwidth used overlaps with the receive channel. As per \ac{lora}'s orthogonality defined in Section \ref{sec:sf_orthogonality}, a \ac{lora} transmission is only considered to interfere if the chirp rate is the same as that of the receive configuration.
+The channel power as seen by a receiver (\ac{rssi}) at a location, is modelled as the sum of: all `interfering' signal powers, the thermal noise floor, and the receiver noise figure. When attempting to receive a signal, its observed $R_P$ can removed from the \ac{rssi} calculation to provide the channel noise ($N$). The \ac{snr} can then be calculated as $R_P - N$. Interfering sources, narrowband or otherwise, are considered as those where the bandwidth used overlaps with the receive channel. As per \ac{lora}'s orthogonality defined in Section \ref{sec:sf_orthogonality}, a \ac{lora} transmission is only considered to interfere if the chirp rate is the same as that of the receive configuration.
 
 
 \subsection{Protocol Testing Infrastructure}
-Protocols are implemented the layer above the low-level radio behaviour using a listener infrastructure. When the time-slice increments, first the raw radio behaviour will occur, and then a `tick' process will be called on any listeners. These listeners can maintain their own state between ticks allowing them to schedule transmissions and handle received packets, ultimately allowing emulation of a full protocol stack. More implementation specific behaviour like radio movement can be emulated here or on a higher level listener. This is how all the protocols defined in Section \ref{sec:protocols} are implemented. The base listener class, \texttt{ProtocolTickListener}, provides methods for directly handling events that have occurred the previous tick (synchronisations, receives, CAD results), tracks received data, and handles protocol performance tracking (for testing). Statistics can be dumped with a by-radio perspective -- the number of  packets received by each radio and the reason for any failures. Or with a by-transmission perspective -- the number of receivers of each transmission and the reason for any failures. Outputs can be filtered to disregard failures of transmissions that are not `wanted' by a receiver (see Section \ref{sec:mac_considerations}).
+Protocols are implemented the layer above the low-level radio behaviour using a listener infrastructure. When the time-slice increments, first the raw radio behaviour will occur, and then a `tick' process will be called on any listeners. These listeners can maintain their own state between ticks allowing them to schedule transmissions and handle received packets, ultimately allowing emulation of a full protocol stack. This is how all the protocols defined in Section \ref{sec:protocols} are implemented. The base listener class, \texttt{ProtocolTickListener}, provides methods for directly handling events that have occurred the previous tick (synchronisations, receives, CAD results), records received data, and handles protocol performance tracking. Statistics can be dumped with a by-radio perspective or a by-transmission perspective. Outputs can be filtered to disregard failures of transmissions that are not `wanted' by a receiver (see Section \ref{sec:mac_considerations}).
 
-The execution of an environment (and the radios within it) is handled by an \texttt{EnvironmentRunner}; this can step time by the configured granularity a number of times or run continuously. Execution occurs on a separate thread and employs listeners to allow external interaction either through a test harness or GUI. Events can be created and scheduled for execution at fixed times to allow for scripted test behaviour; there is built-in support for moving radios, sending transmissions and verifying the expected radio state; although, with full control over the system, any custom behaviour can be implemented. 
+The execution of an environment (and the radios within it) is handled by an \texttt{EnvironmentRunner}; this can step time by the configured granularity a number of times or run continuously. Execution occurs on a separate thread and employs listeners to allow external interaction either through a test harness or GUI. Events can be scheduled for execution at fixed times to allow for scripted test behaviour; there is built-in support for moving radios, sending transmissions and verifying expected radio state; although, with full control over the system, any custom behaviour can be implemented. 
 
 
 \section{Interface (GUI)}
-The Java Swing interface acts largely as a wrapper for managing an \texttt{Environment} \texttt{Runner} and displaying the environment being executed. The full interface can be seen in Figure \ref{fig:sim_interface_main} with further examples in Appendix \ref{sec:simulator_pictures}. User controls are provided for managing environment time, choosing presets and protocols, and accessing statistics. The graphical view, which has full support for panning and zooming, displays the environment's: objects, radios and transmissions. Objects are drawn using their obstruction shape (and specified attributes). Radios are blue circles when transmitting and grey otherwise. Transmission routes are displayed for the last received data in a radio's buffer as a line from transmitter to receiver with \ac{snr} indicated; preamble is identfied by a dotted line, payload as a solid line. The line will be grey if the receiver failed to synchronise with the preamble or red if the transmission was not the one the receiver is synchronised with. Otherwise, blue is used to indicate a data packet and orange as protocol overhead. Together visual cues provides an exact understanding of behaviour.
+The Java Swing interface acts largely as a wrapper for managing an \texttt{Environment} \texttt{Runner} and displaying the environment being executed. The full interface can be seen in Figure \ref{fig:sim_interface_main} with a brief explanation and further examples in Appendix \ref{sec:simulator_pictures}. 
 
 \begin{figure}[H]
     \centering
    	\includegraphics[width=\textwidth]{Figures/simulator_main}
     \caption[Simulator GUI example]{ 
-    	Simulator's GUI interface running the naive (ALOHA) protocol.
+    	Simulator's GUI interface running the ALOHA protocol.
     	}
     \label{fig:sim_interface_main}
 \end{figure}
